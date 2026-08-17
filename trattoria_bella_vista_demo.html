@@ -1,0 +1,1279 @@
+<!DOCTYPE html>
+<html lang="de" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Trattoria Bella Vista | Traditionelle Italienische Küche in München</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts: Playfair Display + Lora + Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                        body: ['Lora', 'serif'],
+                    },
+                    colors: {
+                        'pizza-burgundy': '#8B1C1C', /* Klassisches Weinrot */
+                        'pizza-burgundy-dark': '#6B1010',
+                        'pizza-gold': '#B68D40', /* Gedämpftes Gold */
+                        'pizza-gold-light': '#D4AF37',
+                        'pizza-green': '#2E6F40',
+                        'ink': '#2C2621', /* Tinten-Schwarz */
+                        'paper': '#FDFBF7', /* Büttenpapier-Creme */
+                        'paper-dark': '#F4EFE6',
+                    },
+                    boxShadow: {
+                        'classic': '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Klassischer Büttenpapier-Hintergrund mit dezentem Rauschen */
+        body { 
+            background-color: #FDFBF7; 
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+            color: #2C2621;
+        }
+
+        /* Menü-Punkte im traditionellen Stil (Gepunktete Linie zwischen Text und Preis) */
+        .menu-dots {
+            flex-grow: 1;
+            border-bottom: 2px dotted #D1C7B7;
+            margin: 0 12px;
+            position: relative;
+            top: -6px;
+            opacity: 0.6;
+        }
+        
+        .menu-image-container {
+            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease-in-out, margin 0.4s ease-in-out;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+        .menu-image-container.open {
+            max-height: 380px;
+            opacity: 1;
+            margin-top: 1rem;
+        }
+
+        .rotate-icon {
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+        .rotate-icon.open {
+            transform: rotate(90deg);
+            color: #8B1C1C;
+        }
+
+        .modal-overlay {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-content {
+            transform: scale(0.98) translateY(-10px);
+            transition: transform 0.3s ease;
+        }
+        .modal-overlay.active .modal-content {
+            transform: scale(1) translateY(0);
+        }
+
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        .scroll-px-fix::after {
+            content: '';
+            display: block;
+            flex-shrink: 0;
+            width: 1px;
+            height: 1px;
+        }
+
+        /* iOS Date-Picker Fix */
+        input[type="date"] {
+            -webkit-appearance: none !important;
+            appearance: none !important;
+            width: 100% !important;
+            min-width: 100% !important;
+            display: flex !important;
+            align-items: center !important;
+            margin: 0 !important;
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+        }
+
+        /* Typografische Verzierungen */
+        .ornament-divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin: 2rem 0;
+        }
+        .ornament-divider::before, .ornament-divider::after {
+            content: "";
+            height: 1px;
+            width: 60px;
+            background-color: #B68D40;
+            opacity: 0.5;
+        }
+
+        @keyframes toastIn {
+            from { transform: translateY(100%) scale(0.95); opacity: 0; }
+            to { transform: translateY(0) scale(1); opacity: 1; }
+        }
+        .toast-animate {
+            animation: toastIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        .classic-input {
+            background-color: transparent;
+            border: 1px solid #D1C7B7;
+            border-radius: 2px;
+            color: #2C2621;
+        }
+        .classic-input:focus {
+            border-color: #8B1C1C;
+            box-shadow: none;
+            outline: none;
+        }
+    </style>
+</head>
+<body class="antialiased font-body flex flex-col min-h-screen selection:bg-pizza-burgundy selection:text-white pb-24 md:pb-0">
+
+    <nav class="fixed w-full z-50 bg-paper/95 backdrop-blur-md border-b border-pizza-gold/30 shadow-sm transition-all duration-300">
+        <!-- Top Micro Bar -->
+        <div class="bg-ink text-paper text-[11px] h-8 px-4 hidden sm:flex items-center justify-between border-b border-pizza-gold/20 font-sans tracking-wide">
+            <div class="max-w-6xl mx-auto w-full flex justify-between items-center">
+                <div class="flex items-center gap-5">
+                    <span><i class="fas fa-map-marker-alt text-pizza-gold mr-1.5"></i>Maximilianstraße 12, 80539 München</span>
+                    <span><i class="fas fa-coins text-pizza-gold mr-1.5"></i>Nur Barzahlung</span>
+                </div>
+                <div class="flex items-center gap-3 font-medium uppercase">
+                    <span id="live-status-pill" class="inline-flex items-center gap-1.5 text-[10px] font-bold text-pizza-gold">
+                        Lade Status...
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Nav Header -->
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16 sm:h-20">
+                <div class="flex items-center gap-3 cursor-pointer group" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+                    <!-- Fiktives Logo Wappen SVG -->
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-sm border border-pizza-gold/50 bg-pizza-burgundy flex items-center justify-center text-pizza-gold text-xl shadow-md">
+                            <i class="fas fa-utensils"></i>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="font-serif font-bold text-lg sm:text-xl text-ink tracking-tight leading-none">Bella Vista</span>
+                            <span class="text-[9px] font-serif italic text-pizza-burgundy uppercase tracking-widest mt-0.5">Trattoria Italiana</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="hidden md:flex space-x-8 items-center font-serif text-sm">
+                    <a href="#story" class="text-ink hover:text-pizza-burgundy transition-colors">Über uns</a>
+                    <a href="#info" class="text-ink hover:text-pizza-burgundy transition-colors">Anfahrt & Zeiten</a>
+                    <a href="#menu" class="text-ink hover:text-pizza-burgundy transition-colors">Speisekarte</a>
+                    <div class="h-6 w-px bg-pizza-gold/30"></div>
+                    <a href="tel:08912345678" class="text-pizza-burgundy font-bold hover:text-pizza-burgundy-dark transition-colors flex items-center gap-2">
+                        <i class="fas fa-phone-alt text-pizza-gold"></i> 089 / 1234 5678
+                    </a>
+                    <button onclick="openModal()" class="border border-pizza-burgundy text-pizza-burgundy hover:bg-pizza-burgundy hover:text-white px-5 py-2.5 rounded-sm font-bold tracking-wider uppercase transition-all flex items-center gap-2 text-[11px]">
+                        Tisch reservieren
+                    </button>
+                </div>
+
+                <!-- Mobile Action Buttons -->
+                <div class="md:hidden flex items-center gap-3">
+                    <a href="tel:08912345678" class="text-pizza-burgundy font-bold text-sm">
+                        <i class="fas fa-phone-alt"></i>
+                    </a>
+                    <button onclick="openModal()" class="bg-pizza-burgundy text-white px-4 py-2 rounded-sm text-xs font-bold uppercase tracking-wider">
+                        Reservieren
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <header id="hero-header" class="relative pt-28 pb-20 md:pt-40 md:pb-32 flex items-center justify-center min-h-[70vh] bg-ink bg-cover bg-center transition-all duration-500 overflow-hidden" 
+            style="background-image: linear-gradient(to bottom, rgba(28, 22, 18, 0.82), rgba(28, 22, 18, 0.92)), url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1600&q=80');">
+        
+        <!-- Traditional Gold Border Framing -->
+        <div class="absolute inset-4 md:inset-8 border border-pizza-gold/25 pointer-events-none rounded-sm"></div>
+        <div class="absolute inset-6 md:inset-10 border border-pizza-gold/15 pointer-events-none rounded-sm"></div>
+
+        <div class="relative z-10 text-center px-4 max-w-4xl mx-auto text-paper">
+            
+            <!-- Traditional Italian Crest & Original Logo Emblem -->
+            <div class="inline-flex flex-col items-center mb-6">
+                <!-- Fiktives Marken-Wappen im Hero -->
+                <div class="bg-paper-dark/95 px-6 py-4 rounded-sm border-2 border-pizza-gold/40 shadow-2xl mb-4 backdrop-blur-sm flex flex-col items-center">
+                    <i class="fas fa-wine-glass-alt text-pizza-gold text-2xl mb-1"></i>
+                    <span class="font-serif font-bold text-2xl text-ink tracking-tight uppercase">Trattoria Bella Vista</span>
+                    <span class="text-[10px] font-sans tracking-widest text-pizza-burgundy uppercase font-semibold">Cucina Tradizionale</span>
+                </div>
+                
+                <!-- Tricolore Italian Line -->
+                <div class="flex items-center justify-center gap-2 w-48 h-1 my-2">
+                    <div class="h-1 w-1/3 bg-[#009246] rounded-l-full"></div>
+                    <div class="h-1 w-1/3 bg-white"></div>
+                    <div class="h-1 w-1/3 bg-[#CE2B37] rounded-r-full"></div>
+                </div>
+
+                <div class="flex items-center gap-3 text-xs sm:text-sm text-pizza-gold font-serif italic tracking-widest uppercase mt-1">
+                    <span>❦ Seit 2008</span>
+                    <span class="text-pizza-gold/50">•</span>
+                    <span>Tradizione Italiana ❦</span>
+                </div>
+            </div>
+
+            <!-- Traditional Italian Title -->
+            <h1 class="text-3xl sm:text-5xl md:text-6xl font-serif font-bold mb-4 tracking-tight text-paper leading-tight">
+                Benvenuti alla Trattoria Bella Vista
+            </h1>
+            
+            <div class="w-24 h-0.5 bg-pizza-gold/60 mx-auto mb-6"></div>
+
+            <p class="text-base sm:text-xl font-serif italic mb-10 text-paper/90 max-w-2xl mx-auto leading-relaxed">
+                Echte italienische Gastfreundschaft, traditionelle Steinofenpizza und original Familienrezepte der Familie Rossi.
+            </p>
+            
+            <!-- Traditional Italian CTAs -->
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-md sm:max-w-xl mx-auto">
+                <a href="#menu" class="w-full sm:w-auto bg-pizza-burgundy hover:bg-pizza-burgundy-dark text-white px-8 py-4 rounded-sm font-serif font-bold uppercase tracking-widest transition-all text-center text-xs shadow-lg border border-pizza-gold/50 flex items-center justify-center gap-2">
+                    <i class="fas fa-book-open text-pizza-gold text-sm"></i> Speisekarte ansehen
+                </a>
+                <button onclick="openModal()" class="w-full sm:w-auto bg-ink/80 hover:bg-pizza-gold hover:text-ink border border-pizza-gold text-pizza-gold px-8 py-4 rounded-sm font-serif font-bold uppercase tracking-widest transition-all text-center text-xs shadow-lg flex items-center justify-center gap-2">
+                    <i class="far fa-calendar-alt text-sm"></i> Tisch reservieren
+                </button>
+            </div>
+
+            <!-- Traditional Trattoria Badges -->
+            <div class="mt-12 pt-8 border-t border-pizza-gold/20 grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs text-paper/70 font-serif uppercase tracking-wider">
+                <div class="flex items-center justify-center gap-2 p-2 border border-pizza-gold/15 bg-black/20 rounded-sm">
+                    <i class="fas fa-heart text-pizza-gold"></i>
+                    <span>Familienbetrieb</span>
+                </div>
+                <div class="flex items-center justify-center gap-2 p-2 border border-pizza-gold/15 bg-black/20 rounded-sm">
+                    <i class="fas fa-mortar-pestle text-pizza-gold"></i>
+                    <span>Frische Zutaten</span>
+                </div>
+                <div class="flex items-center justify-center gap-2 p-2 border border-pizza-gold/15 bg-black/20 rounded-sm">
+                    <i class="fas fa-coins text-pizza-gold"></i>
+                    <span>Nur Barzahlung</span>
+                </div>
+            </div>
+
+        </div>
+    </header>
+
+    <section id="story" class="py-20 md:py-28 bg-paper relative border-b border-pizza-gold/20">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="flex flex-col lg:flex-row gap-12 lg:gap-20 items-center">
+                
+                <!-- Card with full color badge -->
+                <div class="w-full lg:w-1/2 flex justify-center lg:justify-end">
+                    <div class="relative w-full max-w-md aspect-square border-2 border-pizza-gold/20 p-2 rounded-sm bg-paper-dark shadow-sm">
+                        <div class="w-full h-full border border-pizza-gold/20 flex flex-col items-center justify-center p-8 text-center" style="background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(182, 141, 64, 0.03) 10px, rgba(182, 141, 64, 0.03) 20px);">
+                            <div class="w-20 h-20 rounded-full border-2 border-pizza-gold bg-pizza-burgundy flex items-center justify-center text-pizza-gold text-3xl mb-4 shadow-inner">
+                                <i class="fas fa-crown"></i>
+                            </div>
+                            <h3 class="font-serif text-2xl text-ink font-bold mb-2">Familie Rossi</h3>
+                            <p class="font-serif italic text-pizza-burgundy text-lg">Seit über 15 Jahren in München</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Text Content -->
+                <div class="w-full lg:w-1/2 space-y-6">
+                    <h4 class="text-pizza-gold font-bold uppercase tracking-widest text-xs">La Nostra Storia</h4>
+                    <h2 class="text-4xl md:text-5xl font-serif font-bold text-ink leading-tight">
+                        Echte italienische Leidenschaft.
+                    </h2>
+                    <div class="w-16 h-0.5 bg-pizza-burgundy"></div>
+                    <p class="text-ink/80 leading-relaxed font-body">
+                        Seit vielen Jahren verwöhnen wir – die Familie Rossi – unsere Gäste mit authentischen Rezepten aus unserer Heimat. Von knuspriger Pizza frisch aus dem Holzofen über hausgemachte Pasta bis hin zu feinen Fischspezialitäten verwenden wir nur sorgfältig ausgewählte Zutaten.
+                    </p>
+                    <p class="text-ink/80 leading-relaxed font-body">
+                        Treten Sie ein und erleben Sie ein Stück Italien mitten im Herzen von München. Wir freuen uns darauf, Sie als unsere Gäste begrüßen zu dürfen.
+                    </p>
+                    <div class="pt-4">
+                        <button onclick="openModal()" class="text-pizza-burgundy font-bold uppercase tracking-widest text-xs border-b border-pizza-burgundy pb-1 hover:text-pizza-burgundy-dark transition-colors">
+                            Reservieren Sie Ihren Tisch <i class="fas fa-arrow-right ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="info" class="bg-paper-dark border-b border-pizza-gold/20 py-12">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 divide-y md:divide-y-0 md:divide-x divide-pizza-gold/20">
+                <div class="p-4 text-center">
+                    <i class="far fa-clock text-2xl text-pizza-gold mb-3"></i>
+                    <h3 class="font-serif font-bold text-lg text-ink uppercase tracking-wider mb-2">Zeiten</h3>
+                    <p class="text-sm text-ink/70 font-body">Täglich: 11:30 - 14:30 & 17:30 - 22:30</p>
+                    <p class="text-xs text-pizza-burgundy font-bold mt-1">Dienstag Ruhetag</p>
+                </div>
+                <div class="p-4 pt-8 md:pt-4 text-center">
+                    <i class="fas fa-map-marker-alt text-2xl text-pizza-gold mb-3"></i>
+                    <h3 class="font-serif font-bold text-lg text-ink uppercase tracking-wider mb-2">Ort</h3>
+                    <p class="text-sm text-ink/70 font-body">Maximilianstraße 12</p>
+                    <p class="text-sm text-ink/70 font-body">80539 München</p>
+                </div>
+                <div class="p-4 pt-8 md:pt-4 text-center">
+                    <i class="fas fa-phone-alt text-2xl text-pizza-gold mb-3"></i>
+                    <h3 class="font-serif font-bold text-lg text-ink uppercase tracking-wider mb-2">Kontakt</h3>
+                    <a href="tel:08912345678" class="text-pizza-burgundy font-bold text-xl hover:underline font-serif">089 / 1234 5678</a>
+                    <p class="text-xs text-ink/50 mt-1 uppercase tracking-wider">Nur Barzahlung</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <main id="menu" class="flex-grow py-16 bg-paper relative">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center mb-12">
+                <div class="ornament-divider">
+                    <i class="fas fa-leaf text-pizza-gold text-sm"></i>
+                </div>
+                <h2 class="text-4xl md:text-5xl font-serif font-bold text-ink mb-4">Speisekarte</h2>
+                <p class="text-sm text-ink/70 font-body italic max-w-xl mx-auto">
+                    Klicken Sie bei einem Gericht auf "Foto ansehen", um ein Beispielbild der Spezialität aufzurufen.
+                </p>
+            </div>
+
+            <!-- Search & Filter Controls (Classic Traditional Look) -->
+            <div class="bg-white p-5 rounded-sm border border-pizza-gold/30 mb-10 shadow-sm">
+                <div class="relative border-b border-pizza-gold/30 mb-4 pb-2">
+                    <i class="fas fa-search absolute left-2 top-1/2 -translate-y-1/2 text-ink/40"></i>
+                    <input type="text" id="menu-search" oninput="filterMenu()" 
+                           placeholder="Suche nach Nummer oder Gericht..." 
+                           class="w-full pl-8 pr-10 py-2 bg-transparent outline-none text-ink font-body italic placeholder-ink/40">
+                    <button id="clear-search" onclick="clearSearch()" class="hidden absolute right-2 top-1/2 -translate-y-1/2 text-ink/40 hover:text-ink">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+
+                <div class="flex overflow-x-auto no-scrollbar items-center gap-4 text-xs font-sans font-semibold uppercase tracking-wider sm:flex-wrap">
+                    <button onclick="toggleFilter('all')" id="filter-btn-all" class="filter-pill shrink-0 text-pizza-burgundy border-b-2 border-pizza-burgundy pb-1 transition-all">Alle</button>
+                    <button onclick="toggleFilter('bestseller')" id="filter-btn-bestseller" class="filter-pill shrink-0 text-ink/60 hover:text-ink pb-1 transition-all border-b-2 border-transparent"><i class="fas fa-star text-pizza-gold mr-1"></i> Bestseller</button>
+                    <button onclick="toggleFilter('veg')" id="filter-btn-veg" class="filter-pill shrink-0 text-ink/60 hover:text-ink pb-1 transition-all border-b-2 border-transparent"><i class="fas fa-leaf text-pizza-green mr-1"></i> Vegetarisch</button>
+                    <button onclick="toggleFilter('spicy')" id="filter-btn-spicy" class="filter-pill shrink-0 text-ink/60 hover:text-ink pb-1 transition-all border-b-2 border-transparent"><i class="fas fa-pepper-hot text-pizza-burgundy mr-1"></i> Scharf</button>
+                    <div class="scroll-px-fix"></div>
+                </div>
+            </div>
+
+            <!-- Sticky Category Navigation Tabs -->
+            <div class="sticky top-16 sm:top-[112px] z-40 bg-paper/95 backdrop-blur-md py-3.5 border-b border-pizza-gold/30 mb-10 overflow-x-auto no-scrollbar flex items-center gap-6" id="category-tabs-container">
+                <button onclick="scrollToCat('Antipasti - Vorspeisen')" data-target="cat-AntipastiVorspeisen" class="cat-tab shrink-0 text-sm font-serif font-bold text-pizza-burgundy border-b-2 border-pizza-burgundy pb-1 transition-colors uppercase tracking-widest whitespace-nowrap">Vorspeisen</button>
+                <button onclick="scrollToCat('Minestre - Suppen')" data-target="cat-MinestreSuppen" class="cat-tab shrink-0 text-sm font-serif font-bold text-ink/50 hover:text-pizza-burgundy transition-colors uppercase tracking-widest whitespace-nowrap">Suppen</button>
+                <button onclick="scrollToCat('Insalata - Salate')" data-target="cat-InsalataSalate" class="cat-tab shrink-0 text-sm font-serif font-bold text-ink/50 hover:text-pizza-burgundy transition-colors uppercase tracking-widest whitespace-nowrap">Salate</button>
+                <button onclick="scrollToCat('Pasta Tradizionale')" data-target="cat-PastaTradizionale" class="cat-tab shrink-0 text-sm font-serif font-bold text-ink/50 hover:text-pizza-burgundy transition-colors uppercase tracking-widest whitespace-nowrap">Pasta</button>
+                <button onclick="scrollToCat('Pizza Classica')" data-target="cat-PizzaClassica" class="cat-tab shrink-0 text-sm font-serif font-bold text-ink/50 hover:text-pizza-burgundy transition-colors uppercase tracking-widest whitespace-nowrap">Pizza</button>
+                <button onclick="scrollToCat('Pesce e Carne - Spezialitäten')" data-target="cat-PesceeCarneSpezialitten" class="cat-tab shrink-0 text-sm font-serif font-bold text-ink/50 hover:text-pizza-burgundy transition-colors uppercase tracking-widest whitespace-nowrap">Fisch & Fleisch</button>
+                <button onclick="scrollToCat('Dolci - Desserts')" data-target="cat-DolciDesserts" class="cat-tab shrink-0 text-sm font-serif font-bold text-ink/50 hover:text-pizza-burgundy transition-colors uppercase tracking-widest whitespace-nowrap">Desserts</button>
+                <button onclick="scrollToCat('Getränke')" data-target="cat-Getrnke" class="cat-tab shrink-0 text-sm font-serif font-bold text-ink/50 hover:text-pizza-burgundy transition-colors uppercase tracking-widest whitespace-nowrap">Getränke</button>
+                <div class="scroll-px-fix"></div>
+            </div>
+
+            <!-- Menu List Container -->
+            <div id="menu-container" class="space-y-16">
+                <!-- Dynamic Content via JS -->
+            </div>
+
+            <div id="no-results" class="hidden text-center py-16">
+                <i class="fas fa-search text-3xl text-pizza-gold/50 mb-4"></i>
+                <h3 class="text-xl font-serif font-bold text-ink">Kein Gericht gefunden</h3>
+                <button onclick="clearSearch()" class="mt-4 text-xs font-bold uppercase tracking-widest text-pizza-burgundy border-b border-pizza-burgundy pb-1">Suche zurücksetzen</button>
+            </div>
+
+        </div>
+    </main>
+
+    <div id="order-sheet-bar" class="fixed bottom-0 left-0 right-0 z-40 bg-ink text-paper p-3 shadow-[0_-10px_30px_rgba(0,0,0,0.15)] border-t-2 border-pizza-gold hidden transition-all safe-area-pb">
+        <div class="max-w-4xl mx-auto flex items-center justify-between gap-4 px-2">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-sm bg-pizza-gold text-ink flex items-center justify-center font-bold text-sm shrink-0">
+                    <i class="fas fa-clipboard-list"></i>
+                </div>
+                <div>
+                    <span id="cart-count" class="font-serif font-bold text-sm block">0 Gerichte</span>
+                    <span class="text-xs text-paper/70 font-sans block">Ca. <strong id="cart-total" class="text-pizza-gold">€ 0,00</strong></span>
+                </div>
+            </div>
+            <button onclick="openOrderModal()" class="bg-pizza-burgundy hover:bg-pizza-burgundy-dark text-white px-5 py-2.5 rounded-sm font-bold uppercase tracking-widest text-[10px] sm:text-xs transition-colors flex items-center gap-2">
+                <i class="fas fa-phone-alt"></i> <span class="hidden sm:inline">Bestellzettel</span><span class="sm:hidden">Ansehen</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toast-container" class="fixed bottom-20 left-1/2 -translate-x-1/2 z-50 pointer-events-none flex flex-col items-center gap-2"></div>
+
+    <!-- Order Modal -->
+    <div id="order-modal" class="modal-overlay fixed inset-0 z-[100] flex items-center justify-center bg-ink/80 backdrop-blur-sm p-4" role="dialog" aria-modal="true" aria-labelledby="order-modal-title">
+        <div class="modal-content bg-paper rounded-sm shadow-2xl w-full max-w-lg max-h-[85vh] overflow-y-auto relative border border-pizza-gold/30">
+            <div class="sticky top-0 z-20 bg-pizza-burgundy text-paper px-6 py-5 flex justify-between items-center shadow-md">
+                <div>
+                    <h3 id="order-modal-title" class="text-xl font-serif font-bold text-pizza-gold-light">Ihr Bestellzettel</h3>
+                    <p class="text-[11px] font-sans tracking-wide mt-0.5">Bella Vista: 089 / 1234 5678</p>
+                </div>
+                <button onclick="closeOrderModal()" aria-label="Schließen" class="text-paper/60 hover:text-white p-2 shrink-0 transition-colors">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <div class="p-6">
+                <p class="text-xs font-sans text-ink/70 mb-6 italic text-center">
+                    Geben Sie diese Nummern telefonisch durch, um schnell zu bestellen.
+                </p>
+                
+                <div id="cart-items-list" class="divide-y divide-pizza-gold/20 mb-4 font-serif">
+                    <!-- Dynamic Cart items -->
+                </div>
+                
+                <div class="flex justify-between items-center py-4 border-t-2 border-pizza-gold/30 font-bold text-lg text-ink font-serif mt-4">
+                    <span>Gesamtsumme:</span>
+                    <span id="cart-modal-total" class="text-pizza-burgundy">€ 0,00</span>
+                </div>
+                
+                <div class="mt-6 pt-4">
+                    <a href="tel:08912345678" class="w-full bg-ink hover:bg-black text-pizza-gold border border-pizza-gold py-3.5 rounded-sm font-bold uppercase tracking-widest text-sm flex items-center justify-center gap-2 transition-colors">
+                        <i class="fas fa-phone-alt"></i> Jetzt anrufen
+                    </a>
+                    <p class="text-[10px] text-center font-sans text-ink/50 mt-3 uppercase tracking-wider">Nur Barzahlung bei Abholung</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reservation Modal -->
+    <div id="reservation-modal" class="modal-overlay fixed inset-0 z-[100] flex items-center justify-center bg-ink/80 backdrop-blur-sm p-4" role="dialog" aria-modal="true" aria-labelledby="reservation-modal-title">
+        <div class="modal-content bg-paper rounded-sm shadow-2xl w-full max-w-lg max-h-[85vh] overflow-y-auto relative border border-pizza-gold/30">
+            <div class="sticky top-0 z-20 bg-pizza-burgundy text-paper px-6 py-5 flex justify-between items-center shadow-md">
+                <div>
+                    <h3 id="reservation-modal-title" class="text-xl sm:text-2xl font-serif font-bold text-pizza-gold-light">Tisch reservieren</h3>
+                    <p class="text-[11px] font-sans tracking-wide mt-0.5 uppercase">Trattoria Bella Vista</p>
+                </div>
+                <button onclick="closeModal()" aria-label="Schließen" class="text-paper/60 hover:text-white p-2 shrink-0 transition-colors">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <div class="p-6">
+                <form id="reservation-form" onsubmit="submitReservation(event)" class="space-y-5 font-sans">
+                    
+                    <div>
+                        <label class="block text-[11px] font-bold text-ink uppercase tracking-widest mb-1.5">Ihr Name *</label>
+                        <input type="text" name="name" required class="classic-input w-full px-4 h-[46px] text-sm" placeholder="Vor- und Nachname">
+                    </div>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-4">
+                        <div class="min-w-0">
+                            <label class="block text-[11px] font-bold text-ink uppercase tracking-widest mb-1.5">Telefonnummer *</label>
+                            <input type="tel" name="phone" required class="classic-input w-full px-4 h-[46px] text-sm" placeholder="Für Rückfragen">
+                        </div>
+                        <div class="min-w-0">
+                            <label class="block text-[11px] font-bold text-ink uppercase tracking-widest mb-1.5">E-Mail (Optional)</label>
+                            <input type="email" name="email" class="classic-input w-full px-4 h-[46px] text-sm" placeholder="mail@beispiel.de">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-5 sm:gap-3">
+                        <div class="min-w-0">
+                            <label class="block text-[11px] font-bold text-ink uppercase tracking-widest mb-1.5">Datum *</label>
+                            <input type="date" name="date" id="reservation-date" required class="classic-input w-full px-4 h-[46px] text-sm block appearance-none">
+                        </div>
+                        <div class="min-w-0">
+                            <label class="block text-[11px] font-bold text-ink uppercase tracking-widest mb-1.5">Uhrzeit *</label>
+                            <select name="time" required class="classic-input w-full px-4 h-[46px] text-sm appearance-none bg-transparent">
+                                <option value="" disabled selected>Wählen...</option>
+                                <optgroup label="Mittags (11:30 - 14:30)">
+                                    <option value="11:30">11:30 Uhr</option>
+                                    <option value="12:00">12:00 Uhr</option>
+                                    <option value="12:30">12:30 Uhr</option>
+                                    <option value="13:00">13:00 Uhr</option>
+                                    <option value="13:30">13:30 Uhr</option>
+                                </optgroup>
+                                <optgroup label="Abends (17:30 - 22:30)">
+                                    <option value="17:30">17:30 Uhr</option>
+                                    <option value="18:00">18:00 Uhr</option>
+                                    <option value="18:30">18:30 Uhr</option>
+                                    <option value="19:00">19:00 Uhr</option>
+                                    <option value="19:30">19:30 Uhr</option>
+                                    <option value="20:00">20:00 Uhr</option>
+                                    <option value="20:30">20:30 Uhr</option>
+                                    <option value="21:00">21:00 Uhr</option>
+                                </optgroup>
+                            </select>
+                        </div>
+                        <div class="min-w-0">
+                            <label class="block text-[11px] font-bold text-ink uppercase tracking-widest mb-1.5">Personen *</label>
+                            <select name="guests" required class="classic-input w-full px-4 h-[46px] text-sm appearance-none bg-transparent">
+                                <option value="1 Person">1 Person</option>
+                                <option value="2 Personen" selected>2 Personen</option>
+                                <option value="3 Personen">3 Personen</option>
+                                <option value="4 Personen">4 Personen</option>
+                                <option value="5 Personen">5 Personen</option>
+                                <option value="6 Personen">6 Personen</option>
+                                <option value="7+ Personen">7+ Personen</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-[11px] font-bold text-ink uppercase tracking-widest mb-1.5">Anmerkungen</label>
+                        <textarea name="notes" rows="2" class="classic-input w-full px-4 py-3 min-h-[80px] text-sm resize-none" placeholder="Allergien, Kinderstuhl etc."></textarea>
+                    </div>
+
+                    <div id="form-status" class="hidden p-3 border border-pizza-gold text-sm text-center mt-2 font-serif italic text-pizza-burgundy"></div>
+
+                    <div class="pt-6 border-t border-pizza-gold/20 flex justify-end gap-4">
+                        <button type="button" onclick="closeModal()" class="px-4 text-ink hover:text-pizza-burgundy font-bold text-xs uppercase tracking-widest transition-colors">Abbrechen</button>
+                        <button type="submit" id="submit-res-btn" class="bg-pizza-burgundy hover:bg-pizza-burgundy-dark text-white px-6 h-[46px] rounded-sm font-bold uppercase tracking-widest text-xs transition-colors flex items-center justify-center gap-2">
+                            Anfragen
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Impressum Modal -->
+    <div id="impressum-modal" class="modal-overlay fixed inset-0 z-[110] flex items-center justify-center bg-ink/80 backdrop-blur-sm p-4" role="dialog" aria-modal="true" aria-labelledby="impressum-modal-title">
+        <div class="modal-content bg-paper rounded-sm shadow-2xl w-full max-w-3xl max-h-[85vh] overflow-y-auto relative border border-pizza-gold/30">
+            <div class="sticky top-0 z-20 bg-pizza-burgundy text-white px-6 py-4 flex justify-between items-center shadow-md">
+                <h3 id="impressum-modal-title" class="text-xl font-serif font-bold text-pizza-gold-light">Impressum</h3>
+                <button onclick="closeImpressum()" aria-label="Schließen" class="text-paper/60 hover:text-white p-2 shrink-0 transition-colors">
+                    <i class="fas fa-times text-lg"></i>
+                </button>
+            </div>
+            <div class="p-6 sm:p-8 font-sans text-ink/80 text-sm leading-relaxed space-y-6">
+                <div>
+                    <h4 class="font-bold text-ink uppercase tracking-wider mb-2 text-xs">Angaben gemäß § 5 TMG</h4>
+                    <p>Trattoria Bella Vista GmbH (Fiktive Demo)<br>Vertreten durch: Matteo Rossi<br>Maximilianstraße 12<br>80539 München</p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-ink uppercase tracking-wider mb-2 text-xs">Kontakt</h4>
+                    <p>Telefon: <a href="tel:08912345678" class="text-pizza-burgundy hover:underline">089 / 1234 5678</a><br>E-Mail: <a href="mailto:info@bellavista-demo.de" class="text-pizza-burgundy hover:underline">info@bellavista-demo.de</a></p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-ink uppercase tracking-wider mb-2 text-xs">Hinweis</h4>
+                    <p>Dies ist eine fiktive Demonstration einer Restaurant-Website zu Präsentationszwecken.</p>
+                </div>
+                <div class="pt-6 border-t border-pizza-gold/20 flex justify-center">
+                    <button onclick="closeImpressum()" class="border border-ink text-ink hover:bg-ink hover:text-paper px-8 h-[46px] rounded-sm font-bold uppercase tracking-widest text-xs transition-colors flex items-center justify-center">Schließen</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Datenschutz Modal -->
+    <div id="datenschutz-modal" class="modal-overlay fixed inset-0 z-[110] flex items-center justify-center bg-ink/80 backdrop-blur-sm p-4" role="dialog" aria-modal="true" aria-labelledby="datenschutz-modal-title">
+        <div class="modal-content bg-white rounded-sm shadow-2xl w-full max-w-3xl max-h-[85vh] overflow-y-auto relative border border-pizza-gold/30">
+            <div class="sticky top-0 z-20 bg-pizza-burgundy text-white px-5 sm:px-6 py-4 flex justify-between items-center shadow-md">
+                <h3 id="datenschutz-modal-title" class="text-xl font-serif font-bold text-pizza-gold-light">Datenschutzerklärung</h3>
+                <button onclick="closeDatenschutz()" aria-label="Schließen" class="text-paper/60 hover:text-white p-2 shrink-0 transition-colors">
+                    <i class="fas fa-times text-lg"></i>
+                </button>
+            </div>
+            <div class="p-6 sm:p-8 font-sans text-ink/80 text-sm leading-relaxed space-y-6 bg-paper">
+                <div>
+                    <h4 class="text-lg font-serif font-bold text-pizza-burgundy mb-3">1. Datenschutz auf einen Blick</h4>
+                    <p class="mb-4">Diese Website dient als Anschauungsbeispiel. Bei Nutzung des Reservierungsformulars werden die eingegebenen Daten ausschließlich zur Übermittlung der Demo-Anfrage genutzt.</p>
+                </div>
+                <div class="pt-6 border-t border-pizza-gold/20 flex justify-center">
+                    <button onclick="closeDatenschutz()" class="border border-ink text-ink hover:bg-ink hover:text-paper px-8 h-[46px] rounded-sm font-bold uppercase tracking-widest text-xs transition-colors flex items-center justify-center">Schließen</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-ink text-paper pt-16 pb-24 md:pb-12 border-t-4 border-pizza-burgundy font-body">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10 mb-8 text-center md:text-left">
+                <div class="flex flex-col items-center md:items-start">
+                    <div class="flex items-center gap-3 mb-4 bg-paper-dark/95 p-3 rounded-sm border border-pizza-gold/30">
+                        <div class="w-8 h-8 rounded-sm bg-pizza-burgundy flex items-center justify-center text-pizza-gold text-lg">
+                            <i class="fas fa-utensils"></i>
+                        </div>
+                        <span class="font-serif font-bold text-lg text-ink">Trattoria Bella Vista</span>
+                    </div>
+                    <p class="text-paper/60 text-sm leading-relaxed mb-4">Ihre italienische Familie Rossi in München. Genießen Sie authentische Pizza und Pasta seit über 15 Jahren.</p>
+                    <p class="text-[10px] text-pizza-gold border border-pizza-gold/30 px-3 py-1.5 rounded-sm uppercase tracking-widest"><i class="fas fa-coins mr-1"></i> Nur Barzahlung möglich.</p>
+                </div>
+                <div>
+                    <h4 class="text-xs font-sans font-bold mb-5 uppercase tracking-widest text-pizza-gold">Kontakt & Anfahrt</h4>
+                    <ul class="space-y-4 text-sm text-paper/70">
+                        <li class="flex items-start justify-center md:justify-start gap-3">
+                            <i class="fas fa-map-marker-alt mt-1 text-pizza-burgundy"></i>
+                            <span>Maximilianstraße 12<br>80539 München</span>
+                        </li>
+                        <li class="flex items-center justify-center md:justify-start gap-3">
+                            <i class="fas fa-phone-alt text-pizza-burgundy"></i>
+                            <a href="tel:08912345678" class="hover:text-pizza-gold transition-colors font-serif text-lg">089 / 1234 5678</a>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-xs font-sans font-bold mb-5 uppercase tracking-widest text-pizza-gold">Öffnungszeiten</h4>
+                    <ul class="space-y-2 text-sm text-paper/70 max-w-[200px] mx-auto md:mx-0">
+                        <li class="flex justify-between border-b border-paper/10 pb-2"><span>Mo</span> <span>11:30-14:30 & 17:30-22:30</span></li>
+                        <li class="flex justify-between border-b border-paper/10 pb-2 text-pizza-burgundy font-bold"><span>Di</span> <span>Ruhetag</span></li>
+                        <li class="flex justify-between pt-1"><span>Mi - So</span> <span>11:30-14:30 & 17:30-22:30</span></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <hr class="border-paper/10 mb-6">
+            
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4 text-[11px] font-sans text-paper/40 uppercase tracking-widest">
+                <p>&copy; 2026 Trattoria Bella Vista (Demo-Vorlage). Alle Rechte vorbehalten.</p>
+                <div class="flex items-center gap-4 font-bold">
+                    <button onclick="openImpressum()" class="hover:text-pizza-gold transition-colors">Impressum</button>
+                    <span class="text-paper/20">|</span>
+                    <button onclick="openDatenschutz()" class="hover:text-pizza-gold transition-colors">Datenschutz</button>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const imagePool = {
+            antipasti: ["photo-1541529086526-db283c563270", "photo-1559564173-19a9f24e3933", "photo-1577907572343-6933f81e3518", "photo-1625938144755-652e08e359b7"],
+            soup: ["photo-1547592166-23ac45744acd", "photo-1603105037659-50c9dc8d343c", "photo-1570776789178-5a3311dc0077"],
+            salad: ["photo-1512621776951-a57141f2eefd", "photo-1540189549336-e6e99c3679fe", "photo-1546069901-ba9599a7e63c"],
+            pasta: ["photo-1473093295043-cdd812d0e601", "photo-1551183053-bf91a1d81141", "photo-1621996311210-2a132bb82155", "photo-1563379926898-05f4575a45d8"],
+            pizza: ["photo-1513104890138-7c749659a591", "photo-1565299624946-b28f40a0ae38", "photo-1604382354936-07c5d9983bd3", "photo-1574071318508-1cdbab80d002"],
+            fish: ["photo-1615141982883-c7ad0e69fd62", "photo-1559742811-822873691df8", "photo-1519708227418-c8fd9a32b7a2"],
+            dessert: ["photo-1571877227200-a0d98ea607e9", "photo-1551024709-8f23befc6f87"],
+            drink: ["photo-1543822709-0d12af6a707a", "photo-1622483767028-3f66f32aef97"]
+        };
+
+        const bestSellers = ["1", "12", "18", "21", "28", "32"];
+        const vegItems = ["2", "3", "7", "10", "11", "20", "22", "30", "31"];
+        const spicyItems = ["4", "15", "23"];
+
+        const menuData = {
+            "Antipasti - Vorspeisen": {
+                desc: "Alle Vorspeisen werden mit frischem Holzofen-Brot serviert.",
+                items: [
+                    ["1", "Antipasto Bella Vista", "Fine Auswahl an Parmaschinken, Büffelmozzarella, getrockneten Tomaten und gegrilltem Gemüse", "16,50", "antipasti"],
+                    ["2", "Bruschetta Classica", "Geröstetes Landbrot mit frischen Tomaten, Knoblauch, Basilikum und Olivenöl", "7,50", "antipasti"],
+                    ["3", "Carpaccio di Manzo", "Hauchdünnes Rinderfilet mit Rucola, frischem Parmesan und Zitrone", "15,00", "antipasti"],
+                    ["4", "Gamberoni all'Aglio", "Garnelen in feinem Knoblauch-Kräuter-Öl mit Peperoncino", "16,00", "antipasti"]
+                ]
+            },
+            "Minestre - Suppen": {
+                desc: "Hausgemachte italienische Suppen.",
+                items: [
+                    ["5", "Zuppa di Pomodoro", "Fruchtige Tomatensuppe mit frischem Basilikum und Sahnehaube", "6,50", "soup"],
+                    ["6", "Minestrone della Casa", "Klassische Gemüsesuppe mit frischen Zutaten der Saison", "7,00", "soup"]
+                ]
+            },
+            "Insalata - Salate": {
+                desc: "Frische knackige Salate mit frischem Hausdressing.",
+                items: [
+                    ["7", "Insalata Caprese", "Büffelmozzarella mit Rispentomaten, frischem Basilikum und Balsamico", "10,50", "salad"],
+                    ["8", "Insalata Mista Grande", "Großer gemischter Salat mit Gurken, Tomaten, Paprika, Oliven und Karotten", "8,50", "salad"],
+                    ["9", "Insalata Tonno e Uovo", "Gemischter Salat mit Thunfisch, roten Zwiebeln, Ei und Oliven", "11,50", "salad"]
+                ]
+            },
+            "Pasta Tradizionale": {
+                desc: "Frisch zubereitete Nudelspezialitäten.",
+                items: [
+                    ["10", "Spaghetti Aglio, Olio e Peperoncino", "Mit frischem Knoblauch, Olivenöl und scharfer Chili", "9,50", "pasta"],
+                    ["11", "Tagliatelle ai Porcini", "Bandnudeln mit edlen Steinpilzen in feiner Kräuter-Sahnesoße", "14,50", "pasta"],
+                    ["12", "Spaghetti Carbonara", "Original italienisch mit krossem Guanciale, Ei und Pecorino", "12,50", "pasta"],
+                    ["13", "Penne all'Arrabbiata", "Penne in feurig-scharfer Tomatensoße mit Knoblauch", "10,50", "pasta"],
+                    ["14", "Lasagne al Forno", "Klassische Schichtnudel mit Rinderhackfleisch und Käse überbacken", "12,00", "pasta"]
+                ]
+            },
+            "Pizza Classica": {
+                desc: "Aus dem original Steinofen (ø 30 cm).",
+                items: [
+                    ["15", "Pizza Diavolo", "Mit Tomatensoße, Mozzarella, scharfer Spianata Calabra Salami und Peperoni", "12,50", "pizza"],
+                    ["18", "Pizza Margherita", "Mit fruchtiger Tomatensoße, Fior di Latte Mozzarella und frischem Basilikum", "9,00", "pizza"],
+                    ["19", "Pizza Prosciutto e Funghi", "Mit Schinken und frischen Champignons", "11,50", "pizza"],
+                    ["20", "Pizza Quattro Formaggi", "Mit vier ausgewählten italienischen Käsesorten", "12,00", "pizza"],
+                    ["21", "Pizza Bella Vista", "Mit Parmaschinken, Rucola, Kirschtomaten und gehobeltem Parmesan", "14,00", "pizza"],
+                    ["22", "Pizza Vegetariana", "Mit gegrillter Paprika, Auberginen, Zucchini und Frühlingszwiebeln", "12,00", "pizza"]
+                ]
+            },
+            "Pesce e Carne - Spezialitäten": {
+                desc: "Fisch- und Fleischgerichte mit Beilagensalat.",
+                items: [
+                    ["23", "Calamari alla Griglia", "Gegrillte Tintenfisch-Tuben mit Knoblauch und Kräutern", "19,50", "fish"],
+                    ["24", "Salmone al Limone", "Gegrilltes Lachsfilet in feiner Zitronen-Butter-Soße", "22,00", "fish"]
+                ]
+            },
+            "Dolci - Desserts": {
+                desc: "Hausgemachte italienische Verführungen.",
+                items: [
+                    ["28", "Tiramisù Tradizionale", "Nach original venezianischem Familienrezept", "6,50", "dessert"],
+                    ["29", "Panna Cotta", "Mit fruchtigem Himbeerspiegel", "6,00", "dessert"]
+                ]
+            },
+            "Getränke": {
+                desc: "Erfrischungen und italienische Weine.",
+                items: [
+                    ["30", "San Pellegrino Mineralwasser", "0,75 l Flasche", "5,50", "drink"],
+                    ["31", "Coca Cola / Zero", "0,4 l", "3,80", "drink"],
+                    ["32", "Chianti Classico DOCG", "Rotwein aus der Toskana (0,25 l)", "7,50", "drink"]
+                ]
+            }
+        };
+
+        let cart = [];
+        let currentFilter = 'all';
+        const FORMSPREE_ENDPOINT = 'https://formspree.io/f/meajlyoz';
+
+        function getImgFor(id, type) {
+            let num = parseInt(id.replace(/\D/g, ''));
+            if (isNaN(num)) {
+                num = Array.from(id).reduce((acc, char) => acc + char.charCodeAt(0), 0);
+            }
+            const pool = imagePool[type] || imagePool['pizza'];
+            const imgId = pool[num % pool.length];
+            const cropY = (num % 8) * 10 + 10; 
+            return `https://images.unsplash.com/${imgId}?auto=format&fit=crop&w=800&h=500&q=80&crop=focalpoint&fp-y=0.${cropY}&fp-x=0.5`;
+        }
+
+        function renderMenu(query = '') {
+            try {
+                const container = document.getElementById('menu-container');
+                const noResults = document.getElementById('no-results');
+                container.innerHTML = ''; 
+                let totalVisible = 0;
+
+                for (const [category, data] of Object.entries(menuData)) {
+                    
+                    const filteredItems = data.items.filter(item => {
+                        const id = item[0];
+                        const name = item[1].toLowerCase();
+                        const desc = item[2].toLowerCase();
+                        const q = query.toLowerCase();
+
+                        const matchesQuery = !query || id.toLowerCase().includes(q) || name.includes(q) || desc.includes(q);
+
+                        let matchesPill = true;
+                        if (currentFilter === 'bestseller') matchesPill = bestSellers.includes(id);
+                        if (currentFilter === 'veg') matchesPill = vegItems.includes(id);
+                        if (currentFilter === 'spicy') matchesPill = spicyItems.includes(id);
+
+                        return matchesQuery && matchesPill;
+                    });
+
+                    if (filteredItems.length === 0) continue;
+                    totalVisible += filteredItems.length;
+
+                    const catIdClean = `cat-${category.replace(/[^a-zA-Z0-9]/g, '')}`;
+
+                    let categoryHTML = `
+                        <div id="${catIdClean}" class="mb-14 scroll-mt-32">
+                            <div class="mb-8 border-b border-pizza-gold/30 pb-4 relative">
+                                <h3 class="text-3xl font-serif font-bold text-ink uppercase tracking-widest">${category}</h3>
+                                ${data.desc ? `<p class="text-ink/60 text-sm mt-2 font-body italic">${data.desc}</p>` : ''}
+                            </div>
+                            <div class="space-y-6">
+                    `;
+
+                    filteredItems.forEach(item => {
+                        const id = item[0];
+                        const name = item[1];
+                        const desc = item[2];
+                        const price = item[3];
+                        const imgType = item[4];
+                        const imgUrl = getImgFor(id, imgType);
+
+                        const isBestseller = bestSellers.includes(id);
+                        const isVeg = vegItems.includes(id);
+                        const isSpicy = spicyItems.includes(id);
+
+                        categoryHTML += `
+                            <div class="group relative">
+                                <div class="flex items-end justify-between gap-2 mb-1 w-full">
+                                    <div class="flex items-baseline gap-2 shrink-0">
+                                        <span class="text-pizza-burgundy font-serif font-bold text-sm min-w-[28px]">${id}.</span>
+                                        <h4 class="text-lg md:text-xl font-serif font-bold text-ink leading-none">${name}</h4>
+                                    </div>
+                                    
+                                    <div class="menu-dots hidden sm:block"></div>
+                                    
+                                    <div class="flex items-center gap-4 shrink-0 pl-2">
+                                        <div class="text-lg font-serif font-bold text-ink">
+                                            € ${price}
+                                        </div>
+                                        <button onclick="addToCart('${id}', '${name.replace(/'/g, "\\'")}', '${price}')" 
+                                                class="border border-pizza-gold/50 text-pizza-burgundy hover:bg-pizza-burgundy hover:border-pizza-burgundy hover:text-white rounded-sm w-8 h-8 flex items-center justify-center transition-colors shadow-sm">
+                                            <i class="fas fa-plus text-xs"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="pl-9 pr-24">
+                                    ${desc ? `<p class="text-sm text-ink/70 font-body leading-relaxed mb-1.5">${desc}</p>` : ''}
+                                    
+                                    <div class="flex flex-wrap gap-2 items-center mt-1.5">
+                                        ${isBestseller ? `<span class="text-pizza-gold text-[10px] font-bold uppercase tracking-widest"><i class="fas fa-star"></i> Bestseller</span>` : ''}
+                                        ${isVeg ? `<span class="text-pizza-green text-[10px] font-bold uppercase tracking-widest"><i class="fas fa-leaf"></i> Veg</span>` : ''}
+                                        ${isSpicy ? `<span class="text-pizza-burgundy text-[10px] font-bold uppercase tracking-widest"><i class="fas fa-pepper-hot"></i> Scharf</span>` : ''}
+                                        
+                                        <button onclick="toggleImg('${id}')" class="text-ink/40 hover:text-pizza-gold text-[10px] font-bold uppercase tracking-widest transition-colors flex items-center gap-1 ml-2">
+                                            <i id="icon-${id}" class="fas fa-image rotate-icon"></i> Foto ansehen
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Unfoldable Image Container -->
+                                <div id="img-${id}" class="menu-image-container pl-9">
+                                    <div class="relative overflow-hidden rounded-sm shadow-sm border border-pizza-gold/20 bg-paper-dark max-w-sm">
+                                        <img src="${imgUrl}" alt="${name}" loading="lazy" class="w-full h-40 sm:h-56 object-cover transform hover:scale-105 transition-transform duration-700 sepia-[.2]">
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    });
+
+                    categoryHTML += `
+                            </div>
+                        </div>
+                    `;
+                    container.insertAdjacentHTML('beforeend', categoryHTML);
+                }
+
+                if (totalVisible === 0) {
+                    noResults.classList.remove('hidden');
+                } else {
+                    noResults.classList.add('hidden');
+                }
+
+                initScrollSpy();
+
+            } catch (error) {
+                console.error("Error rendering menu:", error);
+            }
+        }
+
+        function showToast(message) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'toast-animate bg-ink text-paper px-5 py-3 rounded-sm text-xs font-bold shadow-2xl border border-pizza-gold/40 flex items-center gap-3 font-sans tracking-wide';
+            toast.innerHTML = `<i class="fas fa-check text-pizza-gold"></i> <span>${message}</span>`;
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transition = 'opacity 0.3s ease';
+                setTimeout(() => toast.remove(), 300);
+            }, 2200);
+        }
+
+        function addToCart(id, name, priceStr) {
+            const cleanPrice = parseFloat(priceStr.replace('ab ', '').replace(',', '.'));
+            const existing = cart.find(item => item.id === id);
+            
+            if (existing) {
+                existing.qty++;
+            } else {
+                cart.push({ id, name, price: cleanPrice, qty: 1 });
+            }
+            showToast(`Nr. ${id} hinzugefügt`);
+            updateCartUI();
+        }
+
+        function removeFromCart(id) {
+            cart = cart.filter(item => item.id !== id);
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const bar = document.getElementById('order-sheet-bar');
+            const countEl = document.getElementById('cart-count');
+            const totalEl = document.getElementById('cart-total');
+            const modalTotalEl = document.getElementById('cart-modal-total');
+            const listEl = document.getElementById('cart-items-list');
+
+            const totalQty = cart.reduce((acc, i) => acc + i.qty, 0);
+            const totalPrice = cart.reduce((acc, i) => acc + (i.price * i.qty), 0);
+
+            if (totalQty > 0) {
+                bar.classList.remove('hidden');
+                countEl.innerText = `${totalQty} Gericht${totalQty > 1 ? 'e' : ''}`;
+                totalEl.innerText = `€ ${totalPrice.toFixed(2).replace('.', ',')}`;
+                modalTotalEl.innerText = `€ ${totalPrice.toFixed(2).replace('.', ',')}`;
+            } else {
+                bar.classList.add('hidden');
+            }
+
+            listEl.innerHTML = '';
+            if (cart.length === 0) {
+                listEl.innerHTML = '<p class="text-sm text-ink/50 text-center py-6 border border-dashed border-pizza-gold/30">Noch keine Gerichte ausgewählt.</p>';
+            } else {
+                cart.forEach(item => {
+                    listEl.innerHTML += `
+                        <div class="py-4 flex justify-between items-start">
+                            <div class="flex-1 pr-3">
+                                <div class="flex items-baseline gap-2">
+                                    <span class="font-bold text-pizza-burgundy text-sm">Nr. ${item.id}</span>
+                                    <span class="font-bold text-ink">${item.name}</span>
+                                </div>
+                                <span class="text-xs text-ink/60 block mt-1 font-sans">${item.qty}x je € ${item.price.toFixed(2).replace('.', ',')}</span>
+                            </div>
+                            <div class="flex items-center gap-4 shrink-0 pt-1">
+                                <span class="font-bold text-ink">€ ${(item.price * item.qty).toFixed(2).replace('.', ',')}</span>
+                                <button onclick="removeFromCart('${item.id}')" class="text-ink/30 hover:text-pizza-burgundy transition-colors">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+        }
+
+        function filterMenu() {
+            const query = document.getElementById('menu-search').value;
+            const clearBtn = document.getElementById('clear-search');
+            if (query) {
+                clearBtn.classList.remove('hidden');
+            } else {
+                clearBtn.classList.add('hidden');
+            }
+            renderMenu(query);
+        }
+
+        function clearSearch() {
+            document.getElementById('menu-search').value = '';
+            document.getElementById('clear-search').classList.add('hidden');
+            renderMenu();
+        }
+
+        function toggleFilter(filter) {
+            currentFilter = filter;
+            
+            document.querySelectorAll('.filter-pill').forEach(btn => {
+                btn.className = 'filter-pill shrink-0 text-ink/60 hover:text-ink pb-1 transition-all border-b-2 border-transparent';
+            });
+            
+            const activeBtn = document.getElementById(`filter-btn-${filter}`);
+            if (activeBtn) {
+                activeBtn.className = 'filter-pill shrink-0 text-pizza-burgundy border-b-2 border-pizza-burgundy pb-1 transition-all';
+            }
+            
+            renderMenu(document.getElementById('menu-search').value);
+        }
+
+        let categoryObserver;
+
+        function initScrollSpy() {
+            if (categoryObserver) {
+                categoryObserver.disconnect();
+            }
+
+            const observerOptions = {
+                root: null,
+                rootMargin: window.innerWidth >= 640 ? '-180px 0px -60% 0px' : '-130px 0px -60% 0px',
+                threshold: 0
+            };
+
+            categoryObserver = new IntersectionObserver((entries) => {
+                let activeId = null;
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        activeId = entry.target.id;
+                    }
+                });
+
+                if (activeId) {
+                    document.querySelectorAll('.cat-tab').forEach(btn => {
+                        if (btn.getAttribute('data-target') === activeId) {
+                            btn.className = 'cat-tab shrink-0 text-sm font-serif font-bold text-pizza-burgundy transition-colors uppercase tracking-widest whitespace-nowrap border-b-2 border-pizza-burgundy pb-1';
+                            
+                            const container = btn.parentElement;
+                            const scrollLeft = btn.offsetLeft - (container.offsetWidth / 2) + (btn.offsetWidth / 2);
+                            container.scrollTo({ left: scrollLeft, behavior: 'smooth' });
+                        } else {
+                            btn.className = 'cat-tab shrink-0 text-sm font-serif font-bold text-ink/50 hover:text-ink transition-colors uppercase tracking-widest whitespace-nowrap border-b-2 border-transparent pb-1';
+                        }
+                    });
+                }
+            }, observerOptions);
+
+            document.querySelectorAll('[id^="cat-"]').forEach(el => categoryObserver.observe(el));
+        }
+
+        function scrollToCat(catName) {
+            const elId = `cat-${catName.replace(/[^a-zA-Z0-9]/g, '')}`;
+            const el = document.getElementById(elId);
+            if (el) {
+                const headerOffset = window.innerWidth >= 640 ? 175 : 125; 
+                const elementPosition = el.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+            
+                window.scrollTo({
+                     top: offsetPosition,
+                     behavior: "smooth"
+                });
+            }
+        }
+
+        function toggleImg(id) {
+            const imgContainer = document.getElementById(`img-${id}`);
+            const icon = document.getElementById(`icon-${id}`);
+            
+            if (imgContainer.classList.contains('open')) {
+                imgContainer.classList.remove('open');
+                icon.classList.remove('open');
+            } else {
+                imgContainer.classList.add('open');
+                icon.classList.add('open');
+            }
+        }
+
+        function checkOpeningStatus() {
+            const statusPill = document.getElementById('live-status-pill');
+            if (!statusPill) return;
+
+            const now = new Date();
+            const day = now.getDay();
+            const hour = now.getHours();
+            const min = now.getMinutes();
+            const timeVal = hour * 60 + min;
+
+            if (day === 2) {
+                statusPill.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-red-500"></span> DIENSTAG RUHETAG`;
+                return;
+            }
+
+            const isLunch = timeVal >= 690 && timeVal < 870;
+            const isEvening = timeVal >= 1050 && timeVal < 1350;
+
+            if (isLunch || isEvening) {
+                statusPill.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> JETZT GEÖFFNET`;
+            } else if (timeVal < 690) {
+                statusPill.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-pizza-gold"></span> AB 11:30 WIEDER GEÖFFNET`;
+            } else if (timeVal >= 870 && timeVal < 1050) {
+                statusPill.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-pizza-gold"></span> AB 17:30 WIEDER GEÖFFNET`;
+            } else {
+                const nextDay = (day + 1) % 7;
+                const nextOpenText = (nextDay === 2) ? "MI 11:30 GEÖFFNET" : "AB 11:30 GEÖFFNET";
+                statusPill.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-pizza-gold"></span> ${nextOpenText}`;
+            }
+        }
+
+        const reservationModal = document.getElementById('reservation-modal');
+        const orderModal = document.getElementById('order-modal');
+        const impressumModal = document.getElementById('impressum-modal');
+        const datenschutzModal = document.getElementById('datenschutz-modal');
+
+        const allModals = [reservationModal, orderModal, impressumModal, datenschutzModal];
+        let lastFocusedElement = null;
+
+        function getFocusableElements(modal) {
+            return Array.from(modal.querySelectorAll(
+                'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])'
+            )).filter(el => el.offsetParent !== null);
+        }
+
+        function trapFocus(e) {
+            const openModalEl = allModals.find(m => m.classList.contains('active'));
+            if (!openModalEl) return;
+
+            if (e.key === 'Escape') {
+                closeActiveModal(openModalEl);
+                return;
+            }
+
+            if (e.key !== 'Tab') return;
+
+            const focusable = getFocusableElements(openModalEl);
+            if (focusable.length === 0) return;
+
+            const first = focusable[0];
+            const last = focusable[focusable.length - 1];
+
+            if (e.shiftKey && document.activeElement === first) {
+                e.preventDefault();
+                last.focus();
+            } else if (!e.shiftKey && document.activeElement === last) {
+                e.preventDefault();
+                first.focus();
+            }
+        }
+
+        function closeActiveModal(modal) {
+            if (modal === reservationModal) closeModal();
+            else if (modal === orderModal) closeOrderModal();
+            else if (modal === impressumModal) closeImpressum();
+            else if (modal === datenschutzModal) closeDatenschutz();
+        }
+
+        function onModalOpened(modal) {
+            lastFocusedElement = document.activeElement;
+            document.addEventListener('keydown', trapFocus);
+            const focusable = getFocusableElements(modal);
+            if (focusable.length > 0) {
+                focusable[0].focus();
+            }
+        }
+
+        function onModalClosed() {
+            document.removeEventListener('keydown', trapFocus);
+            if (lastFocusedElement) {
+                lastFocusedElement.focus();
+                lastFocusedElement = null;
+            }
+        }
+
+        function openModal() {
+            reservationModal.classList.add('active');
+            document.body.style.overflow = 'hidden'; 
+            const modalContent = reservationModal.querySelector('.modal-content');
+            if(modalContent) modalContent.scrollTop = 0;
+            onModalOpened(reservationModal);
+        }
+        function closeModal() {
+            reservationModal.classList.remove('active');
+            document.body.style.overflow = '';
+            onModalClosed();
+        }
+
+        function openOrderModal() {
+            orderModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            const modalContent = orderModal.querySelector('.modal-content');
+            if(modalContent) modalContent.scrollTop = 0;
+            onModalOpened(orderModal);
+        }
+        function closeOrderModal() {
+            orderModal.classList.remove('active');
+            document.body.style.overflow = '';
+            onModalClosed();
+        }
+
+        function openImpressum() {
+            impressumModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            const modalContent = impressumModal.querySelector('.modal-content');
+            if(modalContent) modalContent.scrollTop = 0;
+            onModalOpened(impressumModal);
+        }
+        function closeImpressum() {
+            impressumModal.classList.remove('active');
+            document.body.style.overflow = '';
+            onModalClosed();
+        }
+
+        function openDatenschutz() {
+            datenschutzModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            const modalContent = datenschutzModal.querySelector('.modal-content');
+            if(modalContent) modalContent.scrollTop = 0;
+            onModalOpened(datenschutzModal);
+        }
+        function closeDatenschutz() {
+            datenschutzModal.classList.remove('active');
+            document.body.style.overflow = '';
+            onModalClosed();
+        }
+
+        async function submitReservation(e) {
+            e.preventDefault();
+            const form = document.getElementById('reservation-form');
+            const submitBtn = document.getElementById('submit-res-btn');
+            const statusDiv = document.getElementById('form-status');
+            const originalBtnContent = submitBtn.innerHTML;
+
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `
+                <i class="fas fa-spinner fa-spin"></i>
+                <span>Wird übermittelt...</span>
+            `;
+            statusDiv.className = 'hidden p-3 border border-pizza-gold text-sm text-center mt-2 font-serif italic text-pizza-burgundy';
+
+            const formData = new FormData(form);
+
+            try {
+                const response = await fetch(FORMSPREE_ENDPOINT, {
+                    method: 'POST',
+                    body: formData,
+                    headers: { 'Accept': 'application/json' }
+                });
+
+                if (response.ok) {
+                    statusDiv.className = 'block p-4 border border-pizza-gold/50 bg-paper-dark text-ink text-sm text-center mt-2 font-body';
+                    statusDiv.innerHTML = `
+                        <div class="flex items-center justify-center gap-2 mb-1">
+                            <i class="fas fa-check text-pizza-gold"></i>
+                            <strong class="font-serif">Anfrage erfolgreich gesendet!</strong>
+                        </div>
+                        <p class="text-xs text-ink/70 mt-1 italic">Wir prüfen Ihre Daten und bestätigen die Reservierung in Kürze.</p>
+                    `;
+                    form.reset();
+                    submitBtn.style.display = 'none';
+
+                    setTimeout(() => {
+                        closeModal();
+                        submitBtn.style.display = 'flex';
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = originalBtnContent;
+                        statusDiv.className = 'hidden';
+                    }, 4000);
+                } else {
+                    throw new Error('Formspree Fehler');
+                }
+            } catch (error) {
+                statusDiv.className = 'block p-4 border border-pizza-burgundy/50 bg-paper-dark text-ink text-sm text-center mt-2 font-body';
+                statusDiv.innerHTML = `
+                    <strong class="font-serif">Übertragung fehlgeschlagen.</strong><br>Bitte rufen Sie uns direkt an unter:<br><a href="tel:08912345678" class="text-pizza-burgundy font-bold mt-1 inline-block">089 / 1234 5678</a>
+                `;
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalBtnContent;
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            checkOpeningStatus();
+            renderMenu();
+
+            const dateInput = document.getElementById('reservation-date');
+            if (dateInput) {
+                const today = new Date();
+                const yyyy = today.getFullYear();
+                const mm = String(today.getMonth() + 1).padStart(2, '0');
+                const dd = String(today.getDate()).padStart(2, '0');
+                dateInput.setAttribute('min', `${yyyy}-${mm}-${dd}`);
+            }
+        });
+    </script>
+</body>
+</html>
