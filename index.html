@@ -502,8 +502,8 @@
                             <input type="tel" name="phone" required class="classic-input w-full px-4 h-[46px] text-sm" placeholder="Für Rückfragen">
                         </div>
                         <div class="min-w-0">
-                            <label class="block text-[11px] font-bold text-ink uppercase tracking-widest mb-1.5">E-Mail (Optional)</label>
-                            <input type="email" name="email" class="classic-input w-full px-4 h-[46px] text-sm" placeholder="mail@beispiel.de">
+                            <label class="block text-[11px] font-bold text-ink uppercase tracking-widest mb-1.5">E-Mail-Adresse *</label>
+                            <input type="email" name="email" required class="classic-input w-full px-4 h-[46px] text-sm" placeholder="mail@beispiel.de">
                         </div>
                     </div>
 
@@ -1239,9 +1239,9 @@
                     statusDiv.innerHTML = `
                         <div class="flex items-center justify-center gap-2 mb-1">
                             <i class="fas fa-check text-pizza-gold"></i>
-                            <strong class="font-serif">Anfrage erfolgreich gesendet!</strong>
+                            <strong class="font-serif">Vielen Dank! Ihre Reservierungsanfrage ist eingegangen.</strong>
                         </div>
-                        <p class="text-xs text-ink/70 mt-1 italic">Wir prüfen Ihre Daten und bestätigen die Reservierung in Kürze.</p>
+                        <p class="text-xs text-ink/70 mt-1 italic">Wir prüfen die Verfügbarkeit und bestätigen Ihnen Ihren Tisch in Kürze per Telefon oder E-Mail. Wir freuen uns auf Ihren Besuch!</p>
                     `;
                     form.reset();
                     submitBtn.style.display = 'none';
