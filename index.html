@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Trattoria Bella Vista | Traditionelle Italienische Küche in München</title>
+    <title>Trattoria Bella Vista | Traditionelle Italienische Küche</title>
     
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -11,7 +11,6 @@
     <!-- Font Awesome Icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     
-    <!-- Google Fonts: Playfair Display + Lora + Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -26,13 +25,13 @@
                         body: ['Lora', 'serif'],
                     },
                     colors: {
-                        'pizza-burgundy': '#8B1C1C', /* Klassisches Weinrot */
+                        'pizza-burgundy': '#8B1C1C',
                         'pizza-burgundy-dark': '#6B1010',
-                        'pizza-gold': '#B68D40', /* Gedämpftes Gold */
+                        'pizza-gold': '#B68D40',
                         'pizza-gold-light': '#D4AF37',
                         'pizza-green': '#2E6F40',
-                        'ink': '#2C2621', /* Tinten-Schwarz */
-                        'paper': '#FDFBF7', /* Büttenpapier-Creme */
+                        'ink': '#2C2621',
+                        'paper': '#FDFBF7',
                         'paper-dark': '#F4EFE6',
                     },
                     boxShadow: {
@@ -49,9 +48,10 @@
             background-color: #FDFBF7; 
             background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
             color: #2C2621;
+            overflow-x: hidden; 
         }
 
-        /* Menü-Punkte im traditionellen Stil (Gepunktete Linie zwischen Text und Preis) */
+        /* Menü-Punkte im traditionellen Stil */
         .menu-dots {
             flex-grow: 1;
             border-bottom: 2px dotted #D1C7B7;
@@ -81,6 +81,7 @@
             color: #8B1C1C;
         }
 
+        /* Modals */
         .modal-overlay {
             opacity: 0;
             visibility: hidden;
@@ -98,6 +99,7 @@
             transform: scale(1) translateY(0);
         }
 
+        /* Scrollbars verstecken */
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         
@@ -109,7 +111,6 @@
             height: 1px;
         }
 
-        /* iOS Date-Picker Fix */
         input[type="date"] {
             -webkit-appearance: none !important;
             appearance: none !important;
@@ -122,7 +123,6 @@
             padding-bottom: 0 !important;
         }
 
-        /* Typografische Verzierungen */
         .ornament-divider {
             display: flex;
             align-items: center;
@@ -158,47 +158,91 @@
             outline: none;
         }
 
-        /* Smooth Scroll-Reveal Animationen */
+        /* ========================================================================= */
+        /* DYNAMISCHE SCROLL REVEAL ANIMATIONEN                                      */
+        /* ========================================================================= */
+        
         .reveal {
             opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translateY(40px);
+            transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
             will-change: opacity, transform;
         }
         .reveal-left {
             opacity: 0;
-            transform: translateX(-35px);
-            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translateX(-40px);
+            transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
             will-change: opacity, transform;
         }
         .reveal-right {
             opacity: 0;
-            transform: translateX(35px);
-            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translateX(40px);
+            transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
             will-change: opacity, transform;
         }
         .reveal-zoom {
             opacity: 0;
-            transform: scale(0.94);
-            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: scale(0.92);
+            transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
             will-change: opacity, transform;
         }
+        
+        /* Aktive Klasse schaltet Elemente sichtbar */
         .reveal.active, .reveal-left.active, .reveal-right.active, .reveal-zoom.active {
             opacity: 1;
             transform: translateY(0) translateX(0) scale(1);
         }
 
-        /* Verwendungs-Delays für gestaffeltes Erscheinen */
+        /* Fallback: Zeigt alles an, falls JS ausfällt */
+        .no-js .reveal, .no-js .reveal-left, .no-js .reveal-right, .no-js .reveal-zoom {
+            opacity: 1 !important;
+            transform: none !important;
+        }
+
         .delay-100 { transition-delay: 100ms; }
         .delay-200 { transition-delay: 200ms; }
         .delay-300 { transition-delay: 300ms; }
         .delay-400 { transition-delay: 400ms; }
+        .delay-500 { transition-delay: 500ms; }
+
+        /* Endlos-Marquee (Lauftext) */
+        .marquee-container {
+            overflow: hidden;
+            white-space: nowrap;
+            width: 100%;
+        }
+        .marquee-content {
+            display: inline-block;
+            animation: marquee 25s linear infinite;
+        }
+        .marquee-content.reverse {
+            animation: marquee-reverse 25s linear infinite;
+        }
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); } 
+        }
+        @keyframes marquee-reverse {
+            0% { transform: translateX(-50%); }
+            100% { transform: translateX(0); } 
+        }
+
+        /* Sehr langsame Rotation für die Hero-Pizza */
+        .spin-super-slow {
+            animation: spin 100s linear infinite;
+        }
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+
+        .slider-card:hover img {
+            transform: scale(1.05);
+        }
     </style>
 </head>
 <body class="antialiased font-body flex flex-col min-h-screen selection:bg-pizza-burgundy selection:text-white pb-24 md:pb-0">
 
     <nav class="fixed w-full z-50 bg-paper/95 backdrop-blur-md border-b border-pizza-gold/30 shadow-sm transition-all duration-300">
-        <!-- Top Micro Bar -->
         <div class="bg-ink text-paper text-[11px] h-8 px-4 hidden sm:flex items-center justify-between border-b border-pizza-gold/20 font-sans tracking-wide">
             <div class="max-w-6xl mx-auto w-full flex justify-between items-center">
                 <div class="flex items-center gap-5">
@@ -213,26 +257,22 @@
             </div>
         </div>
 
-        <!-- Main Nav Header -->
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16 sm:h-20">
                 <div class="flex items-center gap-3 cursor-pointer group" onclick="window.scrollTo({top:0, behavior:'smooth'})">
-                    <!-- Fiktives Logo Wappen SVG -->
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-sm border border-pizza-gold/50 bg-pizza-burgundy flex items-center justify-center text-pizza-gold text-xl shadow-md">
-                            <i class="fas fa-utensils"></i>
-                        </div>
-                        <div class="flex flex-col">
-                            <span class="font-serif font-bold text-lg sm:text-xl text-ink tracking-tight leading-none">Bella Vista</span>
-                            <span class="text-[9px] font-serif italic text-pizza-burgundy uppercase tracking-widest mt-0.5">Trattoria Italiana</span>
-                        </div>
+                    <div class="w-10 h-10 sm:w-12 sm:h-12 border-2 border-pizza-gold rounded-sm flex items-center justify-center bg-paper-dark text-pizza-burgundy shadow-sm">
+                        <i class="fas fa-utensils text-lg sm:text-xl"></i>
+                    </div>
+                    <div>
+                        <span class="font-serif font-bold text-lg sm:text-xl tracking-tight text-ink block leading-none">Bella Vista</span>
+                        <span class="text-[10px] font-sans tracking-widest uppercase text-pizza-gold font-bold">Ristorante & Pizzeria</span>
                     </div>
                 </div>
                 
                 <div class="hidden md:flex space-x-8 items-center font-serif text-sm">
-                    <a href="#story" class="text-ink hover:text-pizza-burgundy transition-colors">Über uns</a>
-                    <a href="#info" class="text-ink hover:text-pizza-burgundy transition-colors">Anfahrt & Zeiten</a>
+                    <a href="#atmosphere" class="text-ink hover:text-pizza-burgundy transition-colors">Ambiente</a>
                     <a href="#menu" class="text-ink hover:text-pizza-burgundy transition-colors">Speisekarte</a>
+                    <a href="#story" class="text-ink hover:text-pizza-burgundy transition-colors">Unser Koch</a>
                     <div class="h-6 w-px bg-pizza-gold/30"></div>
                     <a href="tel:08912345678" class="text-pizza-burgundy font-bold hover:text-pizza-burgundy-dark transition-colors flex items-center gap-2">
                         <i class="fas fa-phone-alt text-pizza-gold"></i> 089 / 1234 5678
@@ -242,7 +282,6 @@
                     </button>
                 </div>
 
-                <!-- Mobile Action Buttons -->
                 <div class="md:hidden flex items-center gap-3">
                     <a href="tel:08912345678" class="text-pizza-burgundy font-bold text-sm">
                         <i class="fas fa-phone-alt"></i>
@@ -255,27 +294,24 @@
         </div>
     </nav>
 
-    <header id="hero-header" class="relative pt-28 pb-20 md:pt-40 md:pb-32 flex items-center justify-center min-h-[70vh] bg-ink bg-cover bg-center transition-all duration-500 overflow-hidden" 
-            style="background-image: linear-gradient(to bottom, rgba(28, 22, 18, 0.82), rgba(28, 22, 18, 0.92)), url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1600&q=80');">
+    <!-- HERO SECTION mit rotierender Pizza -->
+    <header id="hero-header" class="relative pt-28 pb-32 md:pt-40 md:pb-48 flex items-center justify-center min-h-[85vh] bg-ink bg-cover bg-center transition-all duration-500 overflow-hidden" 
+            style="background-image: linear-gradient(to bottom, rgba(28, 22, 18, 0.85), rgba(28, 22, 18, 0.95));">
         
-        <!-- Gold Border Framing -->
-        <div class="absolute inset-4 md:inset-8 border border-pizza-gold/25 pointer-events-none rounded-sm"></div>
-        <div class="absolute inset-6 md:inset-10 border border-pizza-gold/15 pointer-events-none rounded-sm"></div>
+        <!-- Zentrierte Pizza, die am unteren Rand hervorlugt -->
+        <div class="absolute -bottom-[25%] md:-bottom-[45%] left-1/2 -translate-x-1/2 w-[500px] h-[500px] md:w-[800px] md:h-[800px] rounded-full overflow-hidden spin-super-slow pointer-events-none z-0 border-4 border-pizza-gold/10 shadow-2xl opacity-90">
+            <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=1000&q=80" alt="Pizza Texture" class="w-full h-full object-cover">
+        </div>
+
+        <div class="absolute inset-4 md:inset-8 border border-pizza-gold/25 pointer-events-none rounded-sm z-0"></div>
+        <div class="absolute inset-6 md:inset-10 border border-pizza-gold/15 pointer-events-none rounded-sm z-0"></div>
 
         <div class="relative z-10 text-center px-4 max-w-4xl mx-auto text-paper reveal-zoom">
-            
             <div class="inline-flex flex-col items-center mb-6">
                 <div class="bg-paper-dark/95 p-4 rounded-sm border-2 border-pizza-gold/40 shadow-2xl mb-4 backdrop-blur-sm text-pizza-burgundy flex items-center justify-center w-20 h-20">
                     <i class="fas fa-crown text-3xl text-pizza-gold"></i>
                 </div>
                 
-                <!-- Tricolore Italian Line -->
-                <div class="flex items-center justify-center gap-2 w-48 h-1 my-2">
-                    <div class="h-1 w-1/3 bg-[#009246] rounded-l-full"></div>
-                    <div class="h-1 w-1/3 bg-white"></div>
-                    <div class="h-1 w-1/3 bg-[#CE2B37] rounded-r-full"></div>
-                </div>
-
                 <div class="flex items-center gap-3 text-xs sm:text-sm text-pizza-gold font-serif italic tracking-widest uppercase mt-1">
                     <span>❦ Seit 2008</span>
                     <span class="text-pizza-gold/50">•</span>
@@ -283,88 +319,256 @@
                 </div>
             </div>
 
-            <!-- Traditional Italian Title -->
-            <h1 class="text-3xl sm:text-5xl md:text-6xl font-serif font-bold mb-4 tracking-tight text-paper leading-tight">
-                Benvenuti alla Trattoria Bella Vista
+            <h1 class="text-4xl sm:text-6xl md:text-7xl font-serif font-bold mb-6 tracking-tight text-paper leading-tight">
+                Traditionelle <br>
+                <span class="italic font-light text-pizza-gold-light">Italienische Küche</span>
             </h1>
             
-            <div class="w-24 h-0.5 bg-pizza-gold/60 mx-auto mb-6"></div>
-
-            <p class="text-base sm:text-xl font-serif italic mb-10 text-paper/90 max-w-2xl mx-auto leading-relaxed">
-                Echte italienische Gastfreundschaft, traditionelle Steinofenpizza und original Familienrezepte der Familie Rossi.
+            <p class="text-base sm:text-xl font-serif mb-12 text-paper/80 max-w-2xl mx-auto leading-relaxed">
+                Echte italienische Gastfreundschaft, über 15 Jahre Tradition und original Familienrezepte der Familie Rossi.
             </p>
             
-            <!-- Traditional Italian CTAs -->
             <div class="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-md sm:max-w-xl mx-auto">
-                <a href="#menu" class="w-full sm:w-auto bg-pizza-burgundy hover:bg-pizza-burgundy-dark text-white px-8 py-4 rounded-sm font-serif font-bold uppercase tracking-widest transition-all text-center text-xs shadow-lg border border-pizza-gold/50 flex items-center justify-center gap-2">
-                    <i class="fas fa-book-open text-pizza-gold text-sm"></i> Speisekarte ansehen
-                </a>
-                <button onclick="openModal()" class="w-full sm:w-auto bg-ink/80 hover:bg-pizza-gold hover:text-ink border border-pizza-gold text-pizza-gold px-8 py-4 rounded-sm font-serif font-bold uppercase tracking-widest transition-all text-center text-xs shadow-lg flex items-center justify-center gap-2">
-                    <i class="far fa-calendar-alt text-sm"></i> Tisch reservieren
+                <button onclick="scrollToCat('Antipasti - Vorspeisen')" class="w-full sm:w-auto bg-pizza-burgundy hover:bg-pizza-burgundy-dark text-white px-8 py-4 rounded-sm font-serif font-bold uppercase tracking-widest transition-all text-center text-xs shadow-lg border border-pizza-gold/50 flex items-center justify-center gap-2">
+                    Speisekarte ansehen <i class="fas fa-arrow-right ml-2"></i>
                 </button>
             </div>
-
-            <!-- Traditional Trattoria Badges -->
-            <div class="mt-12 pt-8 border-t border-pizza-gold/20 grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs text-paper/70 font-serif uppercase tracking-wider">
-                <div class="flex items-center justify-center gap-2 p-2 border border-pizza-gold/15 bg-black/20 rounded-sm">
-                    <i class="fas fa-heart text-pizza-gold"></i>
-                    <span>Familienbetrieb</span>
-                </div>
-                <div class="flex items-center justify-center gap-2 p-2 border border-pizza-gold/15 bg-black/20 rounded-sm">
-                    <i class="fas fa-mortar-pestle text-pizza-gold"></i>
-                    <span>Frische Zutaten</span>
-                </div>
-                <div class="flex items-center justify-center gap-2 p-2 border border-pizza-gold/15 bg-black/20 rounded-sm">
-                    <i class="fas fa-coins text-pizza-gold"></i>
-                    <span>Nur Barzahlung</span>
-                </div>
-            </div>
-
         </div>
     </header>
 
-    <section id="story" class="py-20 md:py-28 bg-paper relative border-b border-pizza-gold/20">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-    <section id="story" class="py-20 md:py-28 bg-paper relative border-b border-pizza-gold/20 overflow-hidden">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div class="flex flex-col lg:flex-row gap-12 lg:gap-20 items-center">
-                
-                <div class="w-full lg:w-1/2 flex justify-center lg:justify-end reveal-left">
-                    <div class="relative w-full max-w-md aspect-square border-2 border-pizza-gold/20 p-2 rounded-sm bg-paper-dark shadow-sm">
-                        <div class="w-full h-full border border-pizza-gold/20 flex flex-col items-center justify-center p-8 text-center" style="background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(182, 141, 64, 0.03) 10px, rgba(182, 141, 64, 0.03) 20px);">
-                            <div class="w-20 h-20 border-2 border-pizza-gold rounded-full flex items-center justify-center text-pizza-burgundy mb-6">
-                                <i class="fas fa-wine-glass-alt text-3xl text-pizza-gold"></i>
-                            </div>
-                            <h3 class="font-serif text-2xl text-ink font-bold mb-2">Familie Rossi</h3>
-                            <p class="font-serif italic text-pizza-burgundy text-lg">Seit über 15 Jahren</p>
-                        </div>
-                    </div>
-                </div>
+    <!-- Große Typografie & Atmosphäre (Dynamische Inline-Bilder) -->
+    <section id="atmosphere" class="py-24 md:py-32 bg-paper relative border-b border-pizza-gold/20 overflow-hidden">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-5xl mx-auto mb-16 reveal">
+                <h2 class="text-3xl md:text-5xl lg:text-6xl font-serif text-ink leading-tight">
+                    Essen, 
+                    <span class="inline-block w-16 h-8 md:w-28 md:h-12 rounded-full overflow-hidden align-middle mx-1 md:mx-2 shadow-inner reveal-zoom delay-100">
+                        <img src="https://images.unsplash.com/photo-1544148103-0773bf10d330?auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover">
+                    </span> 
+                    das unvergesslich bleibt. <br>
+                    Ein Ort, 
+                    <span class="inline-block w-16 h-8 md:w-28 md:h-12 rounded-full overflow-hidden align-middle mx-1 md:mx-2 shadow-inner reveal-zoom delay-300">
+                        <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover">
+                    </span> 
+                    an den man gerne <span class="italic font-light text-pizza-burgundy">zurückkehrt.</span>
+                </h2>
+                <p class="mt-8 text-ink/70 font-sans max-w-2xl mx-auto text-sm md:text-base leading-relaxed">
+                    Dies ist ein Restaurant, in dem das Essen immer im Mittelpunkt steht. Unsere Gerichte begeistern die Gäste, lassen sie neue Geschmäcker entdecken und bringen wahre italienische Lebensfreude.
+                </p>
+            </div>
 
-                <div class="w-full lg:w-1/2 space-y-6 reveal-right">
-                    <h4 class="text-pizza-gold font-bold uppercase tracking-widest text-xs">La Nostra Storia</h4>
-                    <h2 class="text-4xl md:text-5xl font-serif font-bold text-ink leading-tight">
-                        Echte italienische Leidenschaft.
-                    </h2>
-                    <div class="w-16 h-0.5 bg-pizza-burgundy"></div>
-                    <p class="text-ink/80 leading-relaxed font-body">
-                        Seit vielen Jahren verwöhnen wir – die Familie Rossi – unsere Gäste mit authentischen Rezepten aus unserer Heimat. Von knuspriger Holzofen-Pizza über hausgemachte Pasta bis hin zu feinen Fisch- und Fleischspezialitäten verwenden wir nur handverlesene, frische Zutaten.
-                    </p>
-                    <p class="text-ink/80 leading-relaxed font-body">
-                        Treten Sie ein und erleben Sie ein Stück italienische Lebensfreude in gemütlichem Ambiente. Wir freuen uns darauf, Sie als unsere Gäste begrüßen zu dürfen.
-                    </p>
-                    <div class="pt-4">
-                        <button onclick="openModal()" class="text-pizza-burgundy font-bold uppercase tracking-widest text-xs border-b border-pizza-burgundy pb-1 hover:text-pizza-burgundy-dark transition-colors">
-                            Reservieren Sie Ihren Tisch <i class="fas fa-arrow-right ml-1"></i>
-                        </button>
-                    </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 items-center">
+                <div class="relative h-64 md:h-96 rounded-sm overflow-hidden shadow-lg reveal-left delay-100">
+                    <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="Restaurant Interior">
                 </div>
-
+                <div class="relative h-80 md:h-[30rem] rounded-sm overflow-hidden shadow-2xl reveal-zoom delay-200 z-10 md:-mt-12">
+                    <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="Restaurant Atmosphere">
+                </div>
+                <div class="relative h-64 md:h-96 rounded-sm overflow-hidden shadow-lg reveal-right delay-300">
+                    <img src="https://images.unsplash.com/photo-1544148103-0773bf10d330?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="Wine pouring">
+                </div>
             </div>
         </div>
     </section>
 
-    <section id="info" class="bg-paper-dark border-b border-pizza-gold/20 py-12">
+    <!-- Horizontaler Slider (Beliebte Gerichte) -->
+    <section class="py-20 md:py-28 bg-ink border-b-4 border-pizza-gold">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-10 flex flex-col md:flex-row justify-between items-start md:items-end gap-4 reveal">
+            <div>
+                <h4 class="text-pizza-gold font-bold uppercase tracking-widest text-xs mb-2">Unsere Empfehlungen</h4>
+                <h2 class="text-4xl md:text-5xl font-serif font-bold text-paper">Beliebte Gerichte</h2>
+            </div>
+            <button onclick="scrollToCat('Pizza')" class="text-paper/70 hover:text-pizza-gold font-sans text-sm flex items-center transition-colors">
+                Zur gesamten Speisekarte <i class="fas fa-arrow-right ml-2 text-xs"></i>
+            </button>
+        </div>
+
+        <div class="flex overflow-x-auto gap-6 pb-8 px-4 sm:px-8 lg:px-[calc((100vw-72rem)/2)] snap-x no-scrollbar reveal delay-200">
+            <div class="min-w-[280px] md:min-w-[320px] snap-center bg-paper-dark rounded-sm overflow-hidden shadow-xl slider-card group flex flex-col">
+                <div class="h-48 md:h-56 overflow-hidden relative">
+                    <img src="https://images.unsplash.com/photo-1612874742237-64cfbaf1cc05?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover transition-transform duration-700" alt="Carbonara">
+                </div>
+                <div class="p-6 flex-grow flex flex-col justify-between">
+                    <div>
+                        <h3 class="font-serif font-bold text-xl text-ink mb-2">Spaghetti alla Carbonara</h3>
+                        <p class="text-sm text-ink/70 font-body line-clamp-2">Mit knusprigem Guanciale, frischem Ei und Pecorino.</p>
+                    </div>
+                    <button onclick="addToCart('24', 'Spaghetti alla Carbonara', '10.50')" class="mt-4 flex items-center justify-between text-pizza-burgundy font-bold uppercase tracking-widest text-xs border-t border-pizza-gold/30 pt-4 hover:text-pizza-burgundy-dark">
+                        <span>Hinzufügen</span>
+                        <span>€ 10,50</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="min-w-[280px] md:min-w-[320px] snap-center bg-paper-dark rounded-sm overflow-hidden shadow-xl slider-card group flex flex-col">
+                <div class="h-48 md:h-56 overflow-hidden relative">
+                    <img src="https://images.unsplash.com/photo-1506280754576-f6fd849e1564?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover transition-transform duration-700" alt="Pizza Bella Vista">
+                </div>
+                <div class="p-6 flex-grow flex flex-col justify-between">
+                    <div>
+                        <h3 class="font-serif font-bold text-xl text-ink mb-2">Pizza Bella Vista</h3>
+                        <p class="text-sm text-ink/70 font-body line-clamp-2">Mit Parmaschinken, Rucola, Kirschtomaten und gehobeltem Parmesan.</p>
+                    </div>
+                    <button onclick="addToCart('136', 'Pizza Bella Vista', '13.00')" class="mt-4 flex items-center justify-between text-pizza-burgundy font-bold uppercase tracking-widest text-xs border-t border-pizza-gold/30 pt-4 hover:text-pizza-burgundy-dark">
+                        <span>Hinzufügen</span>
+                        <span>€ 13,00</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="min-w-[280px] md:min-w-[320px] snap-center bg-paper-dark rounded-sm overflow-hidden shadow-xl slider-card group flex flex-col">
+                <div class="h-48 md:h-56 overflow-hidden relative">
+                    <img src="https://images.unsplash.com/photo-1594921935661-ee210c4d262b?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover transition-transform duration-700" alt="Risotto Porcini">
+                </div>
+                <div class="p-6 flex-grow flex flex-col justify-between">
+                    <div>
+                        <h3 class="font-serif font-bold text-xl text-ink mb-2">Risotto ai Funghi Porcini</h3>
+                        <p class="text-sm text-ink/70 font-body line-clamp-2">Cremiger Reis mit edlen Steinpilzen, Weißwein und Parmesan.</p>
+                    </div>
+                    <button onclick="addToCart('58', 'Risotto ai Funghi Porcini', '12.50')" class="mt-4 flex items-center justify-between text-pizza-burgundy font-bold uppercase tracking-widest text-xs border-t border-pizza-gold/30 pt-4 hover:text-pizza-burgundy-dark">
+                        <span>Hinzufügen</span>
+                        <span>€ 12,50</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="min-w-[280px] md:min-w-[320px] snap-center bg-paper-dark rounded-sm overflow-hidden shadow-xl slider-card group flex flex-col">
+                <div class="h-48 md:h-56 overflow-hidden relative">
+                    <img src="https://images.unsplash.com/photo-1615141982883-c7ad0e69fd62?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover transition-transform duration-700" alt="Tris di Pesce">
+                </div>
+                <div class="p-6 flex-grow flex flex-col justify-between">
+                    <div>
+                        <h3 class="font-serif font-bold text-xl text-ink mb-2">Tris di Pesce</h3>
+                        <p class="text-sm text-ink/70 font-body line-clamp-2">Kombination aus gegrilltem Lachs, Calamari und Großgarnelen.</p>
+                    </div>
+                    <button onclick="addToCart('154', 'Tris di Pesce', '22.50')" class="mt-4 flex items-center justify-between text-pizza-burgundy font-bold uppercase tracking-widest text-xs border-t border-pizza-gold/30 pt-4 hover:text-pizza-burgundy-dark">
+                        <span>Hinzufügen</span>
+                        <span>€ 22,50</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MAIN MENU -->
+    <main id="menu" class="flex-grow py-16 bg-paper relative border-b border-pizza-gold/20">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12 reveal">
+                <div class="ornament-divider">
+                    <i class="fas fa-leaf text-pizza-gold text-sm"></i>
+                </div>
+                <h2 class="text-4xl md:text-5xl font-serif font-bold text-ink mb-4">Unsere Speisekarte</h2>
+                <p class="text-sm text-ink/70 font-body italic max-w-xl mx-auto">
+                    Klicken Sie bei einem Gericht auf "Foto ansehen", um ein Beispielbild der Spezialität aufzurufen.
+                </p>
+            </div>
+
+            <div class="bg-white p-5 rounded-sm border border-pizza-gold/30 mb-10 shadow-sm reveal delay-100">
+                <div class="relative border-b border-pizza-gold/30 mb-4 pb-2">
+                    <i class="fas fa-search absolute left-2 top-1/2 -translate-y-1/2 text-ink/40"></i>
+                    <input type="text" id="menu-search" oninput="filterMenu()" 
+                           placeholder="Suche nach Nummer oder Gericht..." 
+                           class="w-full pl-8 pr-10 py-2 bg-transparent outline-none text-ink font-body italic placeholder-ink/40">
+                    <button id="clear-search" onclick="clearSearch()" class="hidden absolute right-2 top-1/2 -translate-y-1/2 text-ink/40 hover:text-ink">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+
+                <div class="flex overflow-x-auto no-scrollbar items-center gap-4 text-xs font-sans font-semibold uppercase tracking-wider sm:flex-wrap">
+                    <button onclick="toggleFilter('all')" id="filter-btn-all" class="filter-pill shrink-0 text-pizza-burgundy border-b-2 border-pizza-burgundy pb-1 transition-all">Alle</button>
+                    <button onclick="toggleFilter('bestseller')" id="filter-btn-bestseller" class="filter-pill shrink-0 text-ink/60 hover:text-ink pb-1 transition-all border-b-2 border-transparent"><i class="fas fa-star text-pizza-gold mr-1"></i> Bestseller</button>
+                    <button onclick="toggleFilter('veg')" id="filter-btn-veg" class="filter-pill shrink-0 text-ink/60 hover:text-ink pb-1 transition-all border-b-2 border-transparent"><i class="fas fa-leaf text-pizza-green mr-1"></i> Vegetarisch</button>
+                    <button onclick="toggleFilter('spicy')" id="filter-btn-spicy" class="filter-pill shrink-0 text-ink/60 hover:text-ink pb-1 transition-all border-b-2 border-transparent"><i class="fas fa-pepper-hot text-pizza-burgundy mr-1"></i> Scharf</button>
+                    <div class="scroll-px-fix"></div>
+                </div>
+            </div>
+
+            <div class="sticky top-16 sm:top-[112px] z-40 bg-paper/95 backdrop-blur-md py-3.5 border-b border-pizza-gold/30 mb-10 overflow-x-auto no-scrollbar flex items-center gap-6" id="category-tabs-container">
+                <button onclick="scrollToCat('Antipasti - Vorspeisen')" data-target="cat-AntipastiVorspeisen" class="cat-tab shrink-0 text-sm font-serif font-bold text-pizza-burgundy border-b-2 border-pizza-burgundy pb-1 transition-colors uppercase tracking-widest whitespace-nowrap">Vorspeisen</button>
+                <button onclick="scrollToCat('Minestre - Suppen')" data-target="cat-MinestreSuppen" class="cat-tab shrink-0 text-sm font-serif font-bold text-ink/50 hover:text-pizza-burgundy transition-colors uppercase tracking-widest whitespace-nowrap">Suppen</button>
+                <button onclick="scrollToCat('Insalata - Salate')" data-target="cat-InsalataSalate" class="cat-tab shrink-0 text-sm font-serif font-bold text-ink/50 hover:text-pizza-burgundy transition-colors uppercase tracking-widest whitespace-nowrap">Salate</button>
+                <button onclick="scrollToCat('Spaghetti')" data-target="cat-Spaghetti" class="cat-tab shrink-0 text-sm font-serif font-bold text-ink/50 hover:text-pizza-burgundy transition-colors uppercase tracking-widest whitespace-nowrap">Pasta</button>
+                <button onclick="scrollToCat('Risotti - Reisgerichte')" data-target="cat-RisottiReisgerichte" class="cat-tab shrink-0 text-sm font-serif font-bold text-ink/50 hover:text-pizza-burgundy transition-colors uppercase tracking-widest whitespace-nowrap">Risotto</button>
+                <button onclick="scrollToCat('Tris di Pasta & Al Forno')" data-target="cat-TrisdiPastaAlForno" class="cat-tab shrink-0 text-sm font-serif font-bold text-ink/50 hover:text-pizza-burgundy transition-colors uppercase tracking-widest whitespace-nowrap">Überbacken</button>
+                <button onclick="scrollToCat('Pizza')" data-target="cat-Pizza" class="cat-tab shrink-0 text-sm font-serif font-bold text-ink/50 hover:text-pizza-burgundy transition-colors uppercase tracking-widest whitespace-nowrap">Pizza</button>
+                <button onclick="scrollToCat('Specialita di Pesce - Fischspezialitäten')" data-target="cat-SpecialitadiPesceFischspezialitten" class="cat-tab shrink-0 text-sm font-serif font-bold text-ink/50 hover:text-pizza-burgundy transition-colors uppercase tracking-widest whitespace-nowrap">Fisch</button>
+                <button onclick="scrollToCat('Getränke - Alkoholfrei')" data-target="cat-GetrnkeAlkoholfrei" class="cat-tab shrink-0 text-sm font-serif font-bold text-ink/50 hover:text-pizza-burgundy transition-colors uppercase tracking-widest whitespace-nowrap">Getränke</button>
+                <div class="scroll-px-fix"></div>
+            </div>
+
+            <div id="menu-container" class="space-y-16">
+                <!-- Dynamischer Inhalt -->
+            </div>
+
+            <div id="no-results" class="hidden text-center py-16">
+                <i class="fas fa-search text-3xl text-pizza-gold/50 mb-4"></i>
+                <h3 class="text-xl font-serif font-bold text-ink">Kein Gericht gefunden</h3>
+                <button onclick="clearSearch()" class="mt-4 text-xs font-bold uppercase tracking-widest text-pizza-burgundy border-b border-pizza-burgundy pb-1">Suche zurücksetzen</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Marquee (Lauftext) -->
+    <div class="bg-pizza-burgundy text-pizza-gold-light py-4 border-y-2 border-pizza-gold/50">
+        <div class="marquee-container">
+            <div class="marquee-content">
+                <span class="mx-4">❦ BON APPETIT</span>
+                <span class="mx-4">❦ TRADIZIONE ITALIANA</span>
+                <span class="mx-4">❦ FAMIGLIA ROSSI</span>
+                <span class="mx-4">❦ PASSIONE PER LA PIZZA</span>
+                <span class="mx-4">❦ BON APPETIT</span>
+                <span class="mx-4">❦ TRADIZIONE ITALIANA</span>
+                <span class="mx-4">❦ FAMIGLIA ROSSI</span>
+                <span class="mx-4">❦ PASSIONE PER LA PIZZA</span>
+            </div>
+            <div class="marquee-content" aria-hidden="true">
+                <span class="mx-4">❦ BON APPETIT</span>
+                <span class="mx-4">❦ TRADIZIONE ITALIANA</span>
+                <span class="mx-4">❦ FAMIGLIA ROSSI</span>
+                <span class="mx-4">❦ PASSIONE PER LA PIZZA</span>
+                <span class="mx-4">❦ BON APPETIT</span>
+                <span class="mx-4">❦ TRADIZIONE ITALIANA</span>
+                <span class="mx-4">❦ FAMIGLIA ROSSI</span>
+                <span class="mx-4">❦ PASSIONE PER LA PIZZA</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chef / Brand Section -->
+    <section id="story" class="py-24 bg-ink text-paper relative overflow-hidden">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row gap-12 items-center">
+                <div class="w-full md:w-1/2 reveal-left">
+                    <div class="relative h-[400px] md:h-[600px] rounded-sm overflow-hidden border border-pizza-gold/20 shadow-2xl">
+                        <!-- Authentisches Bild eines italienischen Kochs, der frische Pasta macht -->
+                        <img src="https://images.unsplash.com/photo-1581553531393-2fb9a7217983?auto=format&fit=crop&w=800&q=80" alt="Chef preparing fresh pasta" class="w-full h-full object-cover">
+                    </div>
+                </div>
+                <div class="w-full md:w-1/2 space-y-6 reveal-right">
+                    <h4 class="text-pizza-gold font-bold uppercase tracking-widest text-xs">Unser Küchenchef</h4>
+                    <h2 class="text-4xl md:text-5xl font-serif font-bold text-paper leading-tight">
+                        Marco Rossi
+                    </h2>
+                    <p class="text-pizza-gold-light italic font-serif text-lg">Küchenchef der Trattoria Bella Vista</p>
+                    <div class="w-16 h-0.5 bg-pizza-gold/50"></div>
+                    <p class="text-paper/70 leading-relaxed font-body">
+                        Marco ist ein echter Profi, der seiner Arbeit mit Leidenschaft nachgeht. Trotz seines großen Könnens verbessert er ständig seine Fähigkeiten und entdeckt neue Facetten an scheinbar vertrauten Gerichten.
+                    </p>
+                    <p class="text-paper/70 leading-relaxed font-body">
+                        Regelmäßige Besuche in Italien ermöglichen es ihm, immer wieder neue Geheimnisse der italienischen Küche zu entdecken und die besten Familienrezepte nach München zu bringen.
+                    </p>
+                    <div class="pt-6">
+                        <div class="font-serif text-3xl text-pizza-gold/60 italic opacity-80" style="font-family: 'Playfair Display', cursive;">
+                            M. Rossi
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statische Info Sektion unten -->
+    <section id="info-bottom" class="bg-paper-dark border-y border-pizza-gold/20 py-12">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 divide-y md:divide-y-0 md:divide-x divide-pizza-gold/20">
                 <div class="p-4 text-center reveal delay-100">
@@ -389,67 +593,7 @@
         </div>
     </section>
 
-    <main id="menu" class="flex-grow py-16 bg-paper relative">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            
-            <div class="text-center mb-12 reveal">
-                <div class="ornament-divider">
-                    <i class="fas fa-leaf text-pizza-gold text-sm"></i>
-                </div>
-                <h2 class="text-4xl md:text-5xl font-serif font-bold text-ink mb-4">Speisekarte</h2>
-                <p class="text-sm text-ink/70 font-body italic max-w-xl mx-auto">
-                    Klicken Sie bei einem Gericht auf "Foto ansehen", um ein Beispielbild der Spezialität aufzurufen.
-                </p>
-            </div>
-
-            <!-- Filter & Suche -->
-            <div class="bg-white p-5 rounded-sm border border-pizza-gold/30 mb-10 shadow-sm reveal delay-100">
-                <div class="relative border-b border-pizza-gold/30 mb-4 pb-2">
-                    <i class="fas fa-search absolute left-2 top-1/2 -translate-y-1/2 text-ink/40"></i>
-                    <input type="text" id="menu-search" oninput="filterMenu()" 
-                           placeholder="Suche nach Nummer oder Gericht..." 
-                           class="w-full pl-8 pr-10 py-2 bg-transparent outline-none text-ink font-body italic placeholder-ink/40">
-                    <button id="clear-search" onclick="clearSearch()" class="hidden absolute right-2 top-1/2 -translate-y-1/2 text-ink/40 hover:text-ink">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-
-                <div class="flex overflow-x-auto no-scrollbar items-center gap-4 text-xs font-sans font-semibold uppercase tracking-wider sm:flex-wrap">
-                    <button onclick="toggleFilter('all')" id="filter-btn-all" class="filter-pill shrink-0 text-pizza-burgundy border-b-2 border-pizza-burgundy pb-1 transition-all">Alle</button>
-                    <button onclick="toggleFilter('bestseller')" id="filter-btn-bestseller" class="filter-pill shrink-0 text-ink/60 hover:text-ink pb-1 transition-all border-b-2 border-transparent"><i class="fas fa-star text-pizza-gold mr-1"></i> Bestseller</button>
-                    <button onclick="toggleFilter('veg')" id="filter-btn-veg" class="filter-pill shrink-0 text-ink/60 hover:text-ink pb-1 transition-all border-b-2 border-transparent"><i class="fas fa-leaf text-pizza-green mr-1"></i> Vegetarisch</button>
-                    <button onclick="toggleFilter('spicy')" id="filter-btn-spicy" class="filter-pill shrink-0 text-ink/60 hover:text-ink pb-1 transition-all border-b-2 border-transparent"><i class="fas fa-pepper-hot text-pizza-burgundy mr-1"></i> Scharf</button>
-                    <div class="scroll-px-fix"></div>
-                </div>
-            </div>
-
-            <!-- Sticky Category Navigation Tabs -->
-            <div class="sticky top-16 sm:top-[112px] z-40 bg-paper/95 backdrop-blur-md py-3.5 border-b border-pizza-gold/30 mb-10 overflow-x-auto no-scrollbar flex items-center gap-6" id="category-tabs-container">
-                <button onclick="scrollToCat('Antipasti - Vorspeisen')" data-target="cat-AntipastiVorspeisen" class="cat-tab shrink-0 text-sm font-serif font-bold text-pizza-burgundy border-b-2 border-pizza-burgundy pb-1 transition-colors uppercase tracking-widest whitespace-nowrap">Vorspeisen</button>
-                <button onclick="scrollToCat('Minestre - Suppen')" data-target="cat-MinestreSuppen" class="cat-tab shrink-0 text-sm font-serif font-bold text-ink/50 hover:text-pizza-burgundy transition-colors uppercase tracking-widest whitespace-nowrap">Suppen</button>
-                <button onclick="scrollToCat('Insalata - Salate')" data-target="cat-InsalataSalate" class="cat-tab shrink-0 text-sm font-serif font-bold text-ink/50 hover:text-pizza-burgundy transition-colors uppercase tracking-widest whitespace-nowrap">Salate</button>
-                <button onclick="scrollToCat('Pasta Tradizionale')" data-target="cat-PastaTradizionale" class="cat-tab shrink-0 text-sm font-serif font-bold text-ink/50 hover:text-pizza-burgundy transition-colors uppercase tracking-widest whitespace-nowrap">Pasta</button>
-                <button onclick="scrollToCat('Pizza Classica')" data-target="cat-PizzaClassica" class="cat-tab shrink-0 text-sm font-serif font-bold text-ink/50 hover:text-pizza-burgundy transition-colors uppercase tracking-widest whitespace-nowrap">Pizza</button>
-                <button onclick="scrollToCat('Pesce e Carne - Spezialitäten')" data-target="cat-PesceeCarneSpezialitten" class="cat-tab shrink-0 text-sm font-serif font-bold text-ink/50 hover:text-pizza-burgundy transition-colors uppercase tracking-widest whitespace-nowrap">Fisch & Fleisch</button>
-                <button onclick="scrollToCat('Dolci - Desserts')" data-target="cat-DolciDesserts" class="cat-tab shrink-0 text-sm font-serif font-bold text-ink/50 hover:text-pizza-burgundy transition-colors uppercase tracking-widest whitespace-nowrap">Desserts</button>
-                <button onclick="scrollToCat('Getränke')" data-target="cat-Getrnke" class="cat-tab shrink-0 text-sm font-serif font-bold text-ink/50 hover:text-pizza-burgundy transition-colors uppercase tracking-widest whitespace-nowrap">Getränke</button>
-                <div class="scroll-px-fix"></div>
-            </div>
-
-            <!-- Menu List Container -->
-            <div id="menu-container" class="space-y-16">
-                <!-- Dynamic Content via JS -->
-            </div>
-
-            <div id="no-results" class="hidden text-center py-16">
-                <i class="fas fa-search text-3xl text-pizza-gold/50 mb-4"></i>
-                <h3 class="text-xl font-serif font-bold text-ink">Kein Gericht gefunden</h3>
-                <button onclick="clearSearch()" class="mt-4 text-xs font-bold uppercase tracking-widest text-pizza-burgundy border-b border-pizza-burgundy pb-1">Suche zurücksetzen</button>
-            </div>
-
-        </div>
-    </main>
-
+    <!-- Floating Order Sheet Bar -->
     <div id="order-sheet-bar" class="fixed bottom-0 left-0 right-0 z-40 bg-ink text-paper p-3 shadow-[0_-10px_30px_rgba(0,0,0,0.15)] border-t-2 border-pizza-gold hidden transition-all safe-area-pb">
         <div class="max-w-4xl mx-auto flex items-center justify-between gap-4 px-2">
             <div class="flex items-center gap-3">
@@ -467,10 +611,10 @@
         </div>
     </div>
 
-    <!-- Toast Container -->
+    <!-- Toast Notification -->
     <div id="toast-container" class="fixed bottom-20 left-1/2 -translate-x-1/2 z-50 pointer-events-none flex flex-col items-center gap-2"></div>
 
-    <!-- Order Modal -->
+    <!-- Modals (Order, Reservation, Impressum, Datenschutz) -->
     <div id="order-modal" class="modal-overlay fixed inset-0 z-[100] flex items-center justify-center bg-ink/80 backdrop-blur-sm p-4" role="dialog" aria-modal="true" aria-labelledby="order-modal-title">
         <div class="modal-content bg-paper rounded-sm shadow-2xl w-full max-w-lg max-h-[85vh] overflow-y-auto relative border border-pizza-gold/30">
             <div class="sticky top-0 z-20 bg-pizza-burgundy text-paper px-6 py-5 flex justify-between items-center shadow-md">
@@ -485,12 +629,10 @@
             
             <div class="p-6">
                 <p class="text-xs font-sans text-ink/70 mb-6 italic text-center">
-                    Geben Sie diese Nummern telefonisch durch, um schnell zu bestellen.
+                    Geben Sie diese Nummern telefonisch durch, um schnell und unkompliziert zu bestellen.
                 </p>
                 
-                <div id="cart-items-list" class="divide-y divide-pizza-gold/20 mb-4 font-serif">
-                    <!-- Dynamic Cart items -->
-                </div>
+                <div id="cart-items-list" class="divide-y divide-pizza-gold/20 mb-4 font-serif"></div>
                 
                 <div class="flex justify-between items-center py-4 border-t-2 border-pizza-gold/30 font-bold text-lg text-ink font-serif mt-4">
                     <span>Gesamtsumme:</span>
@@ -507,7 +649,6 @@
         </div>
     </div>
 
-    <!-- Reservation Modal -->
     <div id="reservation-modal" class="modal-overlay fixed inset-0 z-[100] flex items-center justify-center bg-ink/80 backdrop-blur-sm p-4" role="dialog" aria-modal="true" aria-labelledby="reservation-modal-title">
         <div class="modal-content bg-paper rounded-sm shadow-2xl w-full max-w-lg max-h-[85vh] overflow-y-auto relative border border-pizza-gold/30">
             <div class="sticky top-0 z-20 bg-pizza-burgundy text-paper px-6 py-5 flex justify-between items-center shadow-md">
@@ -522,54 +663,53 @@
             
             <div class="p-6">
                 <form id="reservation-form" onsubmit="submitReservation(event)" class="space-y-5 font-sans">
-                    
                     <div>
                         <label class="block text-[11px] font-bold text-ink uppercase tracking-widest mb-1.5">Ihr Name *</label>
-                        <input type="text" name="name" required class="classic-input w-full px-4 h-[46px] text-sm" placeholder="Vor- und Nachname">
+                        <input type="text" name="Name" required class="classic-input w-full px-4 h-[46px] text-sm" placeholder="Vor- und Nachname">
                     </div>
                     
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-4">
                         <div class="min-w-0">
                             <label class="block text-[11px] font-bold text-ink uppercase tracking-widest mb-1.5">Telefonnummer *</label>
-                            <input type="tel" name="phone" required class="classic-input w-full px-4 h-[46px] text-sm" placeholder="Für Rückfragen">
+                            <input type="tel" name="Telefonnummer" required class="classic-input w-full px-4 h-[46px] text-sm" placeholder="Für Rückfragen">
                         </div>
                         <div class="min-w-0">
-                            <label class="block text-[11px] font-bold text-ink uppercase tracking-widest mb-1.5">E-Mail (Optional)</label>
-                            <input type="email" name="email" class="classic-input w-full px-4 h-[46px] text-sm" placeholder="mail@beispiel.de">
+                            <label class="block text-[11px] font-bold text-ink uppercase tracking-widest mb-1.5">E-Mail-Adresse *</label>
+                            <input type="email" name="E-Mail" required class="classic-input w-full px-4 h-[46px] text-sm" placeholder="mail@beispiel.de">
                         </div>
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-5 sm:gap-3">
                         <div class="min-w-0">
                             <label class="block text-[11px] font-bold text-ink uppercase tracking-widest mb-1.5">Datum *</label>
-                            <input type="date" name="date" id="reservation-date" required class="classic-input w-full px-4 h-[46px] text-sm block appearance-none">
+                            <input type="date" name="Datum" id="reservation-date" required class="classic-input w-full px-4 h-[46px] text-sm block appearance-none">
                         </div>
                         <div class="min-w-0">
                             <label class="block text-[11px] font-bold text-ink uppercase tracking-widest mb-1.5">Uhrzeit *</label>
-                            <select name="time" required class="classic-input w-full px-4 h-[46px] text-sm appearance-none bg-transparent">
+                            <select name="Uhrzeit" required class="classic-input w-full px-4 h-[46px] text-sm appearance-none bg-transparent">
                                 <option value="" disabled selected>Wählen...</option>
                                 <optgroup label="Mittags (11:30 - 14:30)">
-                                    <option value="11:30">11:30 Uhr</option>
-                                    <option value="12:00">12:00 Uhr</option>
-                                    <option value="12:30">12:30 Uhr</option>
-                                    <option value="13:00">13:00 Uhr</option>
-                                    <option value="13:30">13:30 Uhr</option>
+                                    <option value="11:30 Uhr">11:30 Uhr</option>
+                                    <option value="12:00 Uhr">12:00 Uhr</option>
+                                    <option value="12:30 Uhr">12:30 Uhr</option>
+                                    <option value="13:00 Uhr">13:00 Uhr</option>
+                                    <option value="13:30 Uhr">13:30 Uhr</option>
                                 </optgroup>
                                 <optgroup label="Abends (17:30 - 22:30)">
-                                    <option value="17:30">17:30 Uhr</option>
-                                    <option value="18:00">18:00 Uhr</option>
-                                    <option value="18:30">18:30 Uhr</option>
-                                    <option value="19:00">19:00 Uhr</option>
-                                    <option value="19:30">19:30 Uhr</option>
-                                    <option value="20:00">20:00 Uhr</option>
-                                    <option value="20:30">20:30 Uhr</option>
-                                    <option value="21:00">21:00 Uhr</option>
+                                    <option value="17:30 Uhr">17:30 Uhr</option>
+                                    <option value="18:00 Uhr">18:00 Uhr</option>
+                                    <option value="18:30 Uhr">18:30 Uhr</option>
+                                    <option value="19:00 Uhr">19:00 Uhr</option>
+                                    <option value="19:30 Uhr">19:30 Uhr</option>
+                                    <option value="20:00 Uhr">20:00 Uhr</option>
+                                    <option value="20:30 Uhr">20:30 Uhr</option>
+                                    <option value="21:00 Uhr">21:00 Uhr</option>
                                 </optgroup>
                             </select>
                         </div>
                         <div class="min-w-0">
                             <label class="block text-[11px] font-bold text-ink uppercase tracking-widest mb-1.5">Personen *</label>
-                            <select name="guests" required class="classic-input w-full px-4 h-[46px] text-sm appearance-none bg-transparent">
+                            <select name="Anzahl Personen" required class="classic-input w-full px-4 h-[46px] text-sm appearance-none bg-transparent">
                                 <option value="1 Person">1 Person</option>
                                 <option value="2 Personen" selected>2 Personen</option>
                                 <option value="3 Personen">3 Personen</option>
@@ -583,7 +723,7 @@
 
                     <div>
                         <label class="block text-[11px] font-bold text-ink uppercase tracking-widest mb-1.5">Anmerkungen</label>
-                        <textarea name="notes" rows="2" class="classic-input w-full px-4 py-3 min-h-[80px] text-sm resize-none" placeholder="Allergien, Kinderstuhl etc."></textarea>
+                        <textarea name="Anmerkungen" rows="2" class="classic-input w-full px-4 py-3 min-h-[80px] text-sm resize-none" placeholder="Allergien, Kinderstuhl etc."></textarea>
                     </div>
 
                     <div id="form-status" class="hidden p-3 border border-pizza-gold text-sm text-center mt-2 font-serif italic text-pizza-burgundy"></div>
@@ -599,7 +739,6 @@
         </div>
     </div>
 
-    <!-- Impressum Modal -->
     <div id="impressum-modal" class="modal-overlay fixed inset-0 z-[110] flex items-center justify-center bg-ink/80 backdrop-blur-sm p-4" role="dialog" aria-modal="true" aria-labelledby="impressum-modal-title">
         <div class="modal-content bg-paper rounded-sm shadow-2xl w-full max-w-3xl max-h-[85vh] overflow-y-auto relative border border-pizza-gold/30">
             <div class="sticky top-0 z-20 bg-pizza-burgundy text-white px-6 py-4 flex justify-between items-center shadow-md">
@@ -611,15 +750,19 @@
             <div class="p-6 sm:p-8 font-sans text-ink/80 text-sm leading-relaxed space-y-6">
                 <div>
                     <h4 class="font-bold text-ink uppercase tracking-wider mb-2 text-xs">Angaben gemäß § 5 DDG</h4>
-                    <p>Trattoria Bella Vista GmbH (Fiktive Demo)<br>Vertreten durch: Matteo Rossi<br>Maximilianstraße 12<br>80539 München</p>
+                    <p>Marco Rossi<br>Trattoria Bella Vista<br>Maximilianstraße 12<br>80539 München</p>
                 </div>
                 <div>
                     <h4 class="font-bold text-ink uppercase tracking-wider mb-2 text-xs">Kontakt</h4>
-                    <p>Telefon: <a href="tel:08912345678" class="text-pizza-burgundy hover:underline">089 / 1234 5678</a><br>E-Mail: <a href="mailto:info@bellavista-demo.de" class="text-pizza-burgundy hover:underline">info@bellavista-demo.de</a></p>
+                    <p>Telefon: <a href="tel:08912345678" class="text-pizza-burgundy hover:underline">089 / 1234 5678</a><br>E-Mail: <a href="mailto:info@trattoria-bellavista-demo.de" class="text-pizza-burgundy hover:underline">info@trattoria-bellavista-demo.de</a></p>
                 </div>
                 <div>
                     <h4 class="font-bold text-ink uppercase tracking-wider mb-2 text-xs">Hinweis</h4>
-                    <p>Dies ist eine fiktive Demonstration einer Restaurant-Website zu Präsentationszwecken.</p>
+                    <p>Dies ist eine fiktive Demonstration einer Restaurant-Website zur Präsentation von Design und Funktionalität.</p>
+                </div>
+                <div class="border-t border-pizza-gold/20 pt-6">
+                    <h4 class="text-lg font-serif font-bold text-pizza-burgundy mb-4">Haftungsausschluss</h4>
+                    <p class="mb-4">Die Inhalte unserer Seiten wurden mit größter Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte können wir jedoch keine Gewähr übernehmen.</p>
                 </div>
                 <div class="pt-6 border-t border-pizza-gold/20 flex justify-center">
                     <button onclick="closeImpressum()" class="border border-ink text-ink hover:bg-ink hover:text-paper px-8 h-[46px] rounded-sm font-bold uppercase tracking-widest text-xs transition-colors flex items-center justify-center">Schließen</button>
@@ -655,17 +798,16 @@
         </div>
     </div>
 
-    <footer class="bg-ink text-paper pt-16 pb-24 md:pb-12 border-t-4 border-pizza-burgundy font-body">
+    <!-- STATISCHER FOOTER -->
+    <footer class="bg-ink text-paper pt-16 pb-24 md:pb-12 border-t-4 border-pizza-burgundy font-body relative z-20">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-10 mb-8 text-center md:text-left">
                 <div class="flex flex-col items-center md:items-start">
-                    <div class="flex items-center gap-3 mb-4 bg-paper-dark/95 p-3 rounded-sm border border-pizza-gold/30">
-                        <div class="w-8 h-8 rounded-sm bg-pizza-burgundy flex items-center justify-center text-pizza-gold text-lg">
-                            <i class="fas fa-utensils"></i>
-                        </div>
-                        <span class="font-serif font-bold text-lg text-ink">Trattoria Bella Vista</span>
+                    <div class="flex items-center gap-3 mb-4 bg-paper-dark p-2.5 rounded-sm border border-pizza-gold/30">
+                        <i class="fas fa-utensils text-pizza-burgundy text-xl"></i>
+                        <span class="font-serif font-bold text-ink text-base">Bella Vista</span>
                     </div>
-                    <p class="text-paper/60 text-sm leading-relaxed mb-4">Ihre italienische Familie Rossi in München. Genießen Sie authentische Pizza und Pasta seit über 15 Jahren.</p>
+                    <p class="text-paper/60 text-sm leading-relaxed mb-4">Ihre italienische Familie Rossi in München. Genießen Sie authentische Holzofen-Pizza und frische Pasta seit über 15 Jahren.</p>
                     <p class="text-[10px] text-pizza-gold border border-pizza-gold/30 px-3 py-1.5 rounded-sm uppercase tracking-widest"><i class="fas fa-coins mr-1"></i> Nur Barzahlung möglich.</p>
                 </div>
                 <div>
@@ -683,15 +825,9 @@
                 </div>
                 <div>
                     <h4 class="text-xs font-sans font-bold mb-5 uppercase tracking-widest text-pizza-gold">Öffnungszeiten</h4>
-                    <ul class="space-y-3 text-sm text-paper/70 max-w-xs mx-auto md:mx-0">
-                        <li class="flex justify-between items-center border-b border-paper/10 pb-2">
-                            <span class="font-bold">Mi – Mo</span> 
-                            <span>11:30-14:30 & 17:30-22:30</span>
-                        </li>
-                        <li class="flex justify-between items-center text-pizza-burgundy font-bold">
-                            <span>Di</span> 
-                            <span>Ruhetag</span>
-                        </li>
+                    <ul class="space-y-2.5 text-sm text-paper/70 max-w-xs mx-auto md:mx-0">
+                        <li class="flex justify-between border-b border-paper/10 pb-2"><span>Mi – Mo</span> <span>11:30-14:30 & 17:30-22:30</span></li>
+                        <li class="flex justify-between pt-0.5 text-pizza-burgundy font-bold"><span>Dienstag</span> <span>Ruhetag</span></li>
                     </ul>
                 </div>
             </div>
@@ -699,7 +835,7 @@
             <hr class="border-paper/10 mb-6">
             
             <div class="flex flex-col md:flex-row justify-between items-center gap-4 text-[11px] font-sans text-paper/40 uppercase tracking-widest">
-                <p>&copy; 2026 Trattoria Bella Vista (Demo-Vorlage). Alle Rechte vorbehalten.</p>
+                <p>&copy; 2026 Trattoria Bella Vista. Alle Rechte vorbehalten.</p>
                 <div class="flex items-center gap-4 font-bold">
                     <button onclick="openImpressum()" class="hover:text-pizza-gold transition-colors">Impressum</button>
                     <span class="text-paper/20">|</span>
@@ -710,104 +846,210 @@
     </footer>
 
     <script>
-        const imagePool = {
-            antipasti: ["photo-1541529086526-db283c563270", "photo-1559564173-19a9f24e3933", "photo-1577907572343-6933f81e3518", "photo-1625938144755-652e08e359b7"],
-            soup: ["photo-1547592166-23ac45744acd", "photo-1603105037659-50c9dc8d343c", "photo-1570776789178-5a3311dc0077"],
-            salad: ["photo-1512621776951-a57141f2eefd", "photo-1540189549336-e6e99c3679fe", "photo-1546069901-ba9599a7e63c"],
-            pasta: ["photo-1473093295043-cdd812d0e601", "photo-1551183053-bf91a1d81141", "photo-1621996311210-2a132bb82155", "photo-1563379926898-05f4575a45d8"],
-            pizza: ["photo-1513104890138-7c749659a591", "photo-1565299624946-b28f40a0ae38", "photo-1604382354936-07c5d9983bd3", "photo-1574071318508-1cdbab80d002"],
-            fish: ["photo-1615141982883-c7ad0e69fd62", "photo-1559742811-822873691df8", "photo-1519708227418-c8fd9a32b7a2"],
-            dessert: ["photo-1571877227200-a0d98ea607e9", "photo-1551024709-8f23befc6f87"],
-            drink: ["photo-1543822709-0d12af6a707a", "photo-1622483767028-3f66f32aef97"]
-        };
-
-        const bestSellers = ["1", "12", "18", "21", "28", "32"];
-        const vegItems = ["2", "3", "7", "10", "11", "20", "22", "30", "31"];
-        const spicyItems = ["4", "15", "23"];
+        const bestSellers = ["1", "14", "22", "24", "42", "63", "94", "110", "112", "120", "136", "145", "148"];
+        const vegItems = ["5", "6", "10", "11", "13", "14", "20", "21", "23", "38", "50", "56", "58", "75", "78", "80", "105", "106", "107", "109", "110", "114", "115", "117", "134"];
+        const spicyItems = ["35", "44", "45", "51", "135", "139"];
 
         const menuData = {
             "Antipasti - Vorspeisen": {
-                desc: "Alle Vorspeisen werden mit frischem Holzofen-Brot serviert.",
+                desc: "Alle Vorspeisen werden mit ofenfrischem Pizzabrot serviert.",
                 items: [
-                    ["1", "Antipasto Bella Vista", "Fine Auswahl an Parmaschinken, Büffelmozzarella, getrockneten Tomaten und gegrilltem Gemüse", "16,50", "antipasti"],
-                    ["2", "Bruschetta Classica", "Geröstetes Landbrot mit frischen Tomaten, Knoblauch, Basilikum und Olivenöl", "7,50", "antipasti"],
-                    ["3", "Carpaccio di Manzo", "Hauchdünnes Rinderfilet mit Rucola, frischem Parmesan und Zitrone", "15,00", "antipasti"],
-                    ["4", "Gamberoni all'Aglio", "Garnelen in feinem Knoblauch-Kräuter-Öl mit Peperoncino", "16,00", "antipasti"]
+                    ["1", "Antipasto Bella Vista", "Mit Parmaschinken, Mozzarella di Bufala, getrockneten Tomaten, Oliven und Artischocken", "15,50"],
+                    ["2", "Carpaccio di Manzo", "Hauchdünnes Rinderfilet mit Rucola, frischem Parmesan und Olivenöl", "16,50"],
+                    ["3", "Bruschetta Classica", "Geröstetes Landbrot mit marinierten Tomaten, Knoblauch und frischem Basilikum", "8,50"],
+                    ["4", "Cocktail di Gamberetti", "Klassischer Krabbencocktail auf feinem Blattsalat", "14,50"]
                 ]
             },
             "Minestre - Suppen": {
-                desc: "Hausgemachte italienische Suppen.",
+                desc: "Frisch zubereitete italienische Suppen.",
                 items: [
-                    ["5", "Zuppa di Pomodoro", "Fruchtige Tomatensuppe mit frischem Basilikum und Sahnehaube", "6,50", "soup"],
-                    ["6", "Minestrone della Casa", "Klassische Gemüsesuppe mit frischen Zutaten der Saison", "7,00", "soup"]
+                    ["5", "Zuppa di Pomodoro", "Fruchtige toskanische Tomatensuppe mit Basilikum-Sahne", "6,50"],
+                    ["6", "Minestrone Tradizionale", "Klassische italienische Gemüsesuppe mit frischen Kräutern", "7,00"],
+                    ["7", "Tortellini in Brodo", "Hausgemachte Fleischtortellini in herzhafter Rinderbrühe", "7,50"]
                 ]
             },
             "Insalata - Salate": {
-                desc: "Frische knackige Salate mit frischem Hausdressing.",
+                desc: "Zubereitet mit unserem hauseigenen Balsamico-Olivenöl-Dressing.",
                 items: [
-                    ["7", "Insalata Caprese", "Büffelmozzarella mit Rispentomaten, frischem Basilikum und Balsamico", "10,50", "salad"],
-                    ["8", "Insalata Mista Grande", "Großer gemischter Salat mit Gurken, Tomaten, Paprika, Oliven und Karotten", "8,50", "salad"],
-                    ["9", "Insalata Tonno e Uovo", "Gemischter Salat mit Thunfisch, roten Zwiebeln, Ei und Oliven", "11,50", "salad"]
+                    ["11", "Insalata Verde", "Knackiger grüner Blattsalat", "5,50"],
+                    ["13", "Insalata di Pomodori", "Sonnengereifte Tomaten mit roten Zwiebeln und Oregano", "6,50"],
+                    ["14", "Insalata Mista", "Großer gemischter Salat mit Gurken, Tomaten, Karotten und Paprika", "7,50"],
+                    ["18", "Insalata Bella Vista", "Gemischter Salat mit Thunfisch, Vorderschinken, Käse, Ei und Artischocken", "10,50"],
+                    ["20", "Insalata Caprese", "Büffelmozzarella mit Tomatenscheiben und frischem Basilikum", "9,50"]
                 ]
             },
-            "Pasta Tradizionale": {
-                desc: "Frisch zubereitete Nudelspezialitäten.",
+            "Spaghetti": {
+                desc: "Original italienische Hartweizennudeln al dente.",
                 items: [
-                    ["10", "Spaghetti Aglio, Olio e Peperoncino", "Mit frischem Knoblauch, Olivenöl und scharfer Chili", "9,50", "pasta"],
-                    ["11", "Tagliatelle ai Porcini", "Bandnudeln mit edlen Steinpilzen in feiner Kräuter-Sahnesoße", "14,50", "pasta"],
-                    ["12", "Spaghetti Carbonara", "Original italienisch mit krossem Guanciale, Ei und Pecorino", "12,50", "pasta"],
-                    ["13", "Penne all'Arrabbiata", "Penne in feurig-scharfer Tomatensoße mit Knoblauch", "10,50", "pasta"],
-                    ["14", "Lasagne al Forno", "Klassische Schichtnudel mit Rinderhackfleisch und Käse überbacken", "12,00", "pasta"]
+                    ["21", "Spaghetti al Pomodoro e Basilico", "Mit fruchtiger San-Marzano-Tomatensoße", "8,50"],
+                    ["22", "Spaghetti Bolognese", "Mit herzhaftem Rinderhackfleisch-Ragù nach Familienrezept", "9,50"],
+                    ["23", "Spaghetti Aglio, Olio e Peperoncino", "Mit feinem Olivenöl, Knoblauch und Chili", "8,50"],
+                    ["24", "Spaghetti alla Carbonara", "Mit knusprigem Guanciale/Pancetta, frischem Ei und Pecorino", "10,50"],
+                    ["30", "Spaghetti Frutti di Mare", "Mit fangfrischen Meeresfrüchten, Weißwein und Knoblauch", "13,50"],
+                    ["35", "Spaghetti alla Puttanesca", "Mit Kapern, Oliven, Sardellen und Knoblauch in pikanter Tomatensoße", "10,50"]
                 ]
             },
-            "Pizza Classica": {
-                desc: "Aus dem original Steinofen (ø 30 cm).",
+            "Rigatoni & Penne": {
+                desc: "Klassische Röhrennudeln mit aromatischen Saucen.",
                 items: [
-                    ["15", "Pizza Diavolo", "Mit Tomatensoße, Mozzarella, scharfer Spianata Calabra Salami und Peperoni", "12,50", "pizza"],
-                    ["18", "Pizza Margherita", "Mit fruchtiger Tomatensoße, Fior di Latte Mozzarella und frischem Basilikum", "9,00", "pizza"],
-                    ["19", "Pizza Prosciutto e Funghi", "Mit Schinken und frischen Champignons", "11,50", "pizza"],
-                    ["20", "Pizza Quattro Formaggi", "Mit vier ausgewählten italienischen Käsesorten", "12,00", "pizza"],
-                    ["21", "Pizza Bella Vista", "Mit Parmaschinken, Rucola, Kirschtomaten und gehobeltem Parmesan", "14,00", "pizza"],
-                    ["22", "Pizza Vegetariana", "Mit gegrillter Paprika, Auberginen, Zucchini und Frühlingszwiebeln", "12,00", "pizza"]
+                    ["38", "Rigatoni ai 4 Formaggi", "Mit vier ausgewählten italienischen Käsesorten in Sahnesoße", "10,50"],
+                    ["42", "Rigatoni al Forno", "Mit Hackfleischsoße, Vorderschinken, Erbsen und Mozzarella überbacken", "10,50"],
+                    ["45", "Penne all'Arrabbiata", "In feurig-scharfer Tomatensoße mit Knoblauch und Petersilie", "9,50"],
+                    ["50", "Penne Vegetariane", "Mit frischem Marktgemüse, Knoblauch und Kräutern", "11,50"],
+                    ["55", "Penne Salmone e Spinaci", "Mit Lachsfiletstreifen und Blattspinat in cremiger Hummersoße", "13,50"]
                 ]
             },
-            "Pesce e Carne - Spezialitäten": {
-                desc: "Fisch- und Fleischgerichte mit Beilagensalat.",
+            "Risotti - Reisgerichte": {
+                desc: "Cremiger Arborio-Reis frisch zubereitet.",
                 items: [
-                    ["23", "Calamari alla Griglia", "Gegrillte Tintenfisch-Tuben mit Knoblauch und Kräutern", "19,50", "fish"],
-                    ["24", "Salmone al Limone", "Gegrilltes Lachsfilet in feiner Zitronen-Butter-Soße", "22,00", "fish"]
+                    ["58", "Risotto ai Funghi Porcini", "Mit edlen Steinpilzen, Weißwein und Parmesan", "12,50"],
+                    ["59", "Risotto Marinara", "Mit Meeresfrüchten, feinen Kräutern und Weißweinsoße", "13,00"],
+                    ["63", "Risotto Bella Vista", "Mit Vorderschinken, Champignons, Erbsen und leichter Sahnesoße", "11,50"]
                 ]
             },
-            "Dolci - Desserts": {
-                desc: "Hausgemachte italienische Verführungen.",
+            "Tris di Pasta & Al Forno": {
+                desc: "Ofenfrisch mit goldgelbem Käse überbacken.",
                 items: [
-                    ["28", "Tiramisù Tradizionale", "Nach original venezianischem Familienrezept", "6,50", "dessert"],
-                    ["29", "Panna Cotta", "Mit fruchtigem Himbeerspiegel", "6,00", "dessert"]
+                    ["92", "Tris di Pasta al Forno", "Dreierlei Nudeln mit Hackfleischsoße und Mozzarella überbacken", "12,50"],
+                    ["94", "Lasagne Tradizionale", "Klassische Schichtnudeln mit Fleischragù und Bechamelsauce", "10,50"],
+                    ["98", "Cannelloni Fiorentina", "Mit Ricotta-Spinat-Füllung in feiner Tomaten-Sahnesoße überbacken", "11,50"]
                 ]
             },
-            "Getränke": {
-                desc: "Erfrischungen und italienische Weine.",
+            "Pizza": {
+                desc: "Traditionell auf Stein gebacken (ca. ø 30 cm).",
                 items: [
-                    ["30", "San Pellegrino Mineralwasser", "0,75 l Flasche", "5,50", "drink"],
-                    ["31", "Coca Cola / Zero", "0,4 l", "3,80", "drink"],
-                    ["32", "Chianti Classico DOCG", "Rotwein aus der Toskana (0,25 l)", "7,50", "drink"]
+                    ["105", "Pizzabrot Rosmarino", "Knuspriges Pizzabrot mit Olivenöl und Rosmarin", "4,50"],
+                    ["109", "Pizzabrot Bruschetta", "Mit Tomatenwürfeln, Basilikum und Knoblauch", "7,00"],
+                    ["110", "Pizza Margherita", "San-Marzano-Tomaten, Fior di Latte Mozzarella und frisches Basilikum", "8,50"],
+                    ["112", "Pizza Salame", "Mit fein-würziger italienischer Salami", "9,50"],
+                    ["113", "Pizza Prosciutto", "Mit feinstem Hinterschinken", "9,50"],
+                    ["114", "Pizza Funghi", "Mit frischen Champignons", "9,50"],
+                    ["120", "Pizza Tonno e Cipolla", "Mit saftigem Thunfisch und roten Zwiebeln", "10,50"],
+                    ["123", "Pizza Quattro Stagioni", "Mit Schinken, Salami, Champignons und Artischocken", "11,50"],
+                    ["134", "Pizza Vegetariana", "Mit frischem Marktgemüse, Champignons und Mozzarella", "11,00"],
+                    ["136", "Pizza Bella Vista", "Mit Parmaschinken, Rucola, Kirschtomaten und gehobeltem Parmesan", "13,00"],
+                    ["139", "Pizza Diavola", "Mit scharfer Spianata Calabrese und Peperoni", "11,00"],
+                    ["145", "Pizza 4 Formaggi", "Mit Mozzarella, Gorgonzola, Fontina und Parmesan", "11,00"]
+                ]
+            },
+            "Specialita di Pesce - Fischspezialitäten": {
+                desc: "Alle Fischgerichte werden mit Rosmarinkartoffeln und Salat serviert.",
+                items: [
+                    ["148", "Calamari alla Griglia", "Gegrillter Tintenfisch mit Kräuter-Knoblauch-Öl", "18,50"],
+                    ["154", "Tris di Pesce", "Kombination aus gegrilltem Lachs, Calamari und Großgarnelen", "22,50"],
+                    ["158", "Salmone al Limone", "Gebratenes Lachsfilet auf Weißwein-Zitronenspiegel", "21,50"],
+                    ["164", "Scampi alla Griglia", "Großgarnelen vom Grill mit frischen Kräutern", "21,00"]
+                ]
+            },
+            "Getränke - Alkoholfrei": {
+                desc: "Erfrischende alkoholfreie Getränke und Säfte.",
+                items: [
+                    ["A1", "San Pellegrino / Acqua Panna", "0,75 l Flasche", "5,50"],
+                    ["A2", "Coca Cola / Cola Zero", "0,4 l (koffeinhaltig)", "3,80"],
+                    ["A3", "Fanta / Sprite", "0,4 l", "3,80"],
+                    ["A4", "Apfelschorle naturtrüb", "0,4 l", "3,60"],
+                    ["A5", "San Pellegrino Aranciata", "0,33 l Dose (ital. Orangenlimonade)", "3,80"]
+                ]
+            },
+            "Getränke - Weine & Biere": {
+                desc: "Ausgewählte italienische Weine und frisch gezapfte Biere.",
+                items: [
+                    ["B1", "Peroni Nastro Azzurro", "0,33 l Flasche", "3,80"],
+                    ["B2", "Helles vom Fass", "0,5 l", "4,20"],
+                    ["W1", "Chianti Classico DOCG", "Trockener Rotwein aus der Toskana (0,25 l)", "7,50"],
+                    ["W2", "Primitivo di Manduria", "Vollmundiger Rotwein aus Apulien (0,25 l)", "7,50"],
+                    ["W3", "Pinot Grigio Friuli DOC", "Spritziger Weißwein (0,25 l)", "6,80"],
+                    ["W4", "Prosecco Valdobbiadene", "Flasche 0,75 l", "19,50"]
                 ]
             }
+        };
+
+        // Spezifische Bilder für jedes einzelne Gericht (Unsplash IDs)
+        const specificImages = {
+            // Antipasti
+            "1": "1528669826296-be11144f500c", // Antipasto platter
+            "2": "1544025162-8a6c305b1062", // Beef/meat slice
+            "3": "1572695157366-5e585ab2b69f", // Bruschetta
+            "4": "1559742811-822873691df8", // Shrimps/Prawns
+            // Suppen
+            "5": "1547592166-23ac45744acd", // Tomatensuppe
+            "6": "1603105037659-50c9dc8d343c", // Minestrone
+            "7": "1548943487-a2e4b43b4859", // Broth
+            // Salate
+            "11": "1512621776951-a57141f2eefd", // Green salad
+            "13": "1592417817098-8fd3d9eb14a5", // Tomato salad
+            "14": "1540189549336-e6e99c3679fe", // Mixed salad
+            "18": "1529312266912-b33cfce2eefd", // Big mixed
+            "20": "1606850780554-b55ea4fa0bc7", // Caprese
+            // Pasta
+            "21": "1563379926898-05f4575a45d8", // Pomodoro
+            "22": "1622973536968-3eaaaceb872f", // Bolognese
+            "23": "1551183053-bf91a1d81141", // Aglio Olio
+            "24": "1612874742237-64cfbaf1cc05", // Carbonara
+            "30": "1585653060000-88062828b031", // Seafood pasta
+            "35": "1621996311210-2a132bb82155", // Puttanesca
+            "38": "1555949258-eb67b1ef0ceb", // 4 Formaggi Rigatoni
+            "42": "1608897013039-88ebf63f5394", // Al Forno
+            "45": "1550547660-d9450f859349", // Arrabbiata (spicy red)
+            "50": "1473093295043-cdd812d0e601", // Veggie pasta
+            "55": "1645112411394-f73752e505a4", // Salmon pasta
+            // Risotto
+            "58": "1594921935661-ee210c4d262b", // Porcini Risotto
+            "59": "1633337474563-1d017b25e791", // Seafood Risotto
+            "63": "1606555135113-1b9134a413d3", // Ham/Pea Risotto
+            // Al Forno
+            "92": "1608897013039-88ebf63f5394", // Tris al forno
+            "94": "1574894709920-11de2a1a27e8", // Lasagne
+            "98": "1588013273448-963d35133614", // Cannelloni
+            // Pizza
+            "105": "1589367920969-abceb032976b", // Pizzabrot
+            "109": "1572695157366-5e585ab2b69f", // Bruschetta (Pizza)
+            "110": "1574071318508-1cdbab80d002", // Margherita
+            "112": "1628840042765-356cda07504e", // Salame
+            "113": "1513104890138-7c749659a591", // Prosciutto (generic pizza)
+            "114": "1565299624946-b28f40a0ae38", // Funghi
+            "120": "1598023696312-bbf67b848c08", // Tonno
+            "123": "1604382354936-07c5d9983bd3", // 4 Stagioni
+            "134": "1513104890138-7c749659a591", // Veg
+            "136": "1506280754576-f6fd849e1564", // Bella Vista (Rucola/Parma)
+            "139": "1628840042765-356cda07504e", // Diavola (Scharf)
+            "145": "1573821663912-5dda73ceab04", // 4 Formaggi Pizza
+            // Fish
+            "148": "1599084920263-d14fb57ee290", // Calamari
+            "154": "1615141982883-c7ad0e69fd62", // Tris Pesce
+            "158": "1519708227418-c8fd9a32b7a2", // Salmone
+            "164": "1559742811-822873691df8", // Scampi
+            // Drinks
+            "A1": "1548839140-392e9e719ebc", // Water
+            "A2": "1622483767028-3f66f32aef97", // Cola
+            "A3": "1513558161293-cdaf765ed2fd", // Sprite/Orange
+            "A4": "1546171753-97d7676e4602", // Apfelschorle
+            "A5": "1513558161293-cdaf765ed2fd", // Aranciata
+            "B1": "1536935338788-846bb9981813", // Beer
+            "B2": "1614316938952-e9e995587785", // Draft beer
+            "W1": "1506377247377-2a5b3b417ebb", // Red wine
+            "W2": "1506377247377-2a5b3b417ebb", // Red wine
+            "W3": "1510812431401-41d310a01bf9", // White wine
+            "W4": "1590189182193-2fb44abe07dd"  // Prosecco
         };
 
         let cart = [];
         let currentFilter = 'all';
         const FORMSPREE_ENDPOINT = 'https://formspree.io/f/meajlyoz';
 
-        function getImgFor(id, type) {
-            let num = parseInt(id.replace(/\D/g, ''));
-            if (isNaN(num)) {
-                num = Array.from(id).reduce((acc, char) => acc + char.charCodeAt(0), 0);
+        function getImgFor(id) {
+            // Zeige das passgenaue Bild, wenn vorhanden
+            if (specificImages[id]) {
+                return `https://images.unsplash.com/photo-${specificImages[id]}?auto=format&fit=crop&w=800&h=500&q=80`;
             }
-            const pool = imagePool[type] || imagePool['pizza'];
-            const imgId = pool[num % pool.length];
-            const cropY = (num % 8) * 10 + 10; 
-            return `https://images.unsplash.com/${imgId}?auto=format&fit=crop&w=800&h=500&q=80&crop=focalpoint&fp-y=0.${cropY}&fp-x=0.5`;
+            
+            // Smarter Fallback für Getränke und Co., falls IDs fehlen
+            if (id.startsWith('A')) return `https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=800&h=500&q=80`;
+            if (id.startsWith('B')) return `https://images.unsplash.com/photo-1536935338788-846bb9981813?auto=format&fit=crop&w=800&h=500&q=80`;
+            if (id.startsWith('W')) return `https://images.unsplash.com/photo-1510812431401-41d310a01bf9?auto=format&fit=crop&w=800&h=500&q=80`;
+            
+            // Generischer Pasta/Pizza Fallback als letzter Ausweg
+            return `https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=800&h=500&q=80`; 
         }
 
         function renderMenu(query = '') {
@@ -854,8 +1096,7 @@
                         const name = item[1];
                         const desc = item[2];
                         const price = item[3];
-                        const imgType = item[4];
-                        const imgUrl = getImgFor(id, imgType);
+                        const imgUrl = getImgFor(id);
 
                         const isBestseller = bestSellers.includes(id);
                         const isVeg = vegItems.includes(id);
@@ -896,7 +1137,6 @@
                                     </div>
                                 </div>
 
-                                <!-- Unfoldable Image Container -->
                                 <div id="img-${id}" class="menu-image-container pl-9">
                                     <div class="relative overflow-hidden rounded-sm shadow-sm border border-pizza-gold/20 bg-paper-dark max-w-sm">
                                         <img src="${imgUrl}" alt="${name}" loading="lazy" class="w-full h-40 sm:h-56 object-cover transform hover:scale-105 transition-transform duration-700 sepia-[.2]">
@@ -920,7 +1160,9 @@
                 }
 
                 initScrollSpy();
-                initScrollReveal();
+                
+                // Setze Observer auf die neu generierten Speisekarte-Elemente
+                setTimeout(initScrollReveal, 100);
 
             } catch (error) {
                 console.error("Error rendering menu:", error);
@@ -1078,18 +1320,28 @@
         function initScrollReveal() {
             const revealElements = document.querySelectorAll('.reveal:not(.active), .reveal-left:not(.active), .reveal-right:not(.active), .reveal-zoom:not(.active)');
             
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('active');
-                    }
-                });
-            }, {
-                threshold: 0.1,
-                rootMargin: '0px 0px -40px 0px'
-            });
+            // Fallback für iframes / langsame Geräte
+            setTimeout(() => {
+                revealElements.forEach(el => el.classList.add('active'));
+            }, 1000);
 
-            revealElements.forEach(el => observer.observe(el));
+            if('IntersectionObserver' in window) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('active');
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, {
+                    threshold: 0.1,
+                    rootMargin: '0px 0px 50px 0px'
+                });
+
+                revealElements.forEach(el => observer.observe(el));
+            } else {
+                revealElements.forEach(el => el.classList.add('active'));
+            }
         }
 
         function scrollToCat(catName) {
@@ -1099,7 +1351,7 @@
                 const headerOffset = window.innerWidth >= 640 ? 175 : 125; 
                 const elementPosition = el.getBoundingClientRect().top;
                 const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-            
+          
                 window.scrollTo({
                      top: offsetPosition,
                      behavior: "smooth"
@@ -1125,7 +1377,7 @@
             if (!statusPill) return;
 
             const now = new Date();
-            const day = now.getDay();
+            const day = now.getDay(); 
             const hour = now.getHours();
             const min = now.getMinutes();
             const timeVal = hour * 60 + min;
@@ -1135,8 +1387,8 @@
                 return;
             }
 
-            const isLunch = timeVal >= 690 && timeVal < 870;
-            const isEvening = timeVal >= 1050 && timeVal < 1350;
+            const isLunch = timeVal >= 690 && timeVal < 870; // 11:30 - 14:30
+            const isEvening = timeVal >= 1050 && timeVal < 1350; // 17:30 - 22:30
 
             if (isLunch || isEvening) {
                 statusPill.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> JETZT GEÖFFNET`;
@@ -1230,7 +1482,7 @@
 
         function openOrderModal() {
             orderModal.classList.add('active');
-            document.body.style.overflow = 'hidden';
+            document.body.style.overflow = 'hidden'; 
             const modalContent = orderModal.querySelector('.modal-content');
             if(modalContent) modalContent.scrollTop = 0;
             onModalOpened(orderModal);
@@ -1243,7 +1495,7 @@
 
         function openImpressum() {
             impressumModal.classList.add('active');
-            document.body.style.overflow = 'hidden';
+            document.body.style.overflow = 'hidden'; 
             const modalContent = impressumModal.querySelector('.modal-content');
             if(modalContent) modalContent.scrollTop = 0;
             onModalOpened(impressumModal);
@@ -1256,7 +1508,7 @@
 
         function openDatenschutz() {
             datenschutzModal.classList.add('active');
-            document.body.style.overflow = 'hidden';
+            document.body.style.overflow = 'hidden'; 
             const modalContent = datenschutzModal.querySelector('.modal-content');
             if(modalContent) modalContent.scrollTop = 0;
             onModalOpened(datenschutzModal);
@@ -1295,9 +1547,9 @@
                     statusDiv.innerHTML = `
                         <div class="flex items-center justify-center gap-2 mb-1">
                             <i class="fas fa-check text-pizza-gold"></i>
-                            <strong class="font-serif">Anfrage erfolgreich gesendet!</strong>
+                            <strong class="font-serif">Vielen Dank! Anfrage erfolgreich übermittelt.</strong>
                         </div>
-                        <p class="text-xs text-ink/70 mt-1 italic">Wir prüfen Ihre Daten und bestätigen die Reservierung in Kürze.</p>
+                        <p class="text-xs text-ink/70 mt-1 italic">Wir prüfen die Verfügbarkeit und bestätigen Ihnen die Reservierung in Kürze per E-Mail oder Telefon.</p>
                     `;
                     form.reset();
                     submitBtn.style.display = 'none';
